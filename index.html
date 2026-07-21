@@ -350,14 +350,13 @@
 
       <div class="plansection">
         <h2>Standard warm-up</h2>
-        <div class="lede">Before every climbing day (Mon/Wed/Fri/Sat), ~15–18 minutes.</div>
+        <div class="lede">Before every climbing day (Mon/Wed/Fri/Sat), ~15–17 minutes. No separate cardio block — the climbing ramp itself raises your heart rate, which is more climbing-specific than a bike or jog anyway.</div>
         <div class="tblwrap">
           <table>
             <tbody>
-              <tr><td class="num">1</td><td>Pulse raiser — light cardio</td><td class="num">5 min</td></tr>
-              <tr><td class="num">2</td><td>Joint circles — shoulders/wrists/hips</td><td class="num">2 min</td></tr>
-              <tr><td class="num">3</td><td>Finger prep — flicks/curls, 3× 10s hang</td><td class="num">2 min</td></tr>
-              <tr><td class="num">4</td><td>Climbing ramp — 4–6 easy problems/routes</td><td class="num">8–10 min</td></tr>
+              <tr><td class="num">1</td><td>Joint circles — shoulders/wrists/hips</td><td class="num">2 min</td></tr>
+              <tr><td class="num">2</td><td>Finger prep — flicks/curls, 3× 10s hang</td><td class="num">3 min</td></tr>
+              <tr><td class="num">3</td><td>Climbing ramp — start on something near-flat or jug-only, build through 5–6 problems/routes to your working difficulty</td><td class="num">10–12 min</td></tr>
             </tbody>
           </table>
         </div>
@@ -421,7 +420,7 @@
   var TEMPLATES = {
     mon: { label: "Boulder — Limit / Power", sub: "Fully rested between tries — a power day, not a fatigue day.",
       items: [
-        {id:"warmup", text:"Warm-up", meta:"15–18 min · see Plan tab", type:"check"},
+        {id:"warmup", text:"Warm-up", meta:"15–17 min · see Plan tab", type:"check"},
         {id:"limit", text:"Limit attempts — 3–4 problems at V4–V6", meta:"3 attempts/problem max · rest 3–5m", why:"Long rest keeps this about power, not endurance.", type:"check"},
         {id:"scarymove", text:"One committing move, worked in isolation (pad + spotter)", meta:"3–5 controlled reps", why:"Builds trust in a specific move-type.", type:"check"},
         {id:"core", text:"Core finisher — bicycle crunch ×20 → hollow body hold 20–30s → side plank 25s/side → hanging knee raise ×10", meta:"2 rounds · 60s between", type:"check"},
@@ -429,7 +428,7 @@
       ]},
     tue: { label: "Gym — Strength & Finger Check", sub: "No climbing today — the strength base-building day.",
       items: [
-        {id:"warmup", text:"Warm-up — light cardio + dynamic stretch", meta:"8–10 min", type:"check"},
+        {id:"warmup", text:"Warm-up — joint mobility, then a few easy ramp-up reps of pull-ups/push-ups", meta:"8–10 min", why:"Ramping into the actual movement beats generic cardio for the same reason it does on climbing days — it's specific to what you're about to load.", type:"check"},
         {id:"tindeq", text:"Tindeq check — half-crimp, alternate R/L", meta:"Ramp: ~50/70/85% of last week's number, short rest (30/45/60s) → then 4 sets × 7s true max · rest 3m between max sets only", why:"Only the true max sets need the full 3 min — submax holds barely touch ATP-CP stores so they recover in seconds. Once a week, Tuesday only, not the priority lever.", type:"tindeq"},
         {id:"pullups", text:"Pull-ups — same reps as last week, add a little weight", meta:"4 sets · rest 3m · start unweighted", why:"Once your bodyweight rep count is locked in, the next gains come from adding load at that same count, not chasing more reps.", type:"pullreps"},
         {id:"pushups", text:"Push-ups — max reps each set", meta:"4 sets · rest 90s", why:"Closes your pull:push gap. This is the one dedicated push day — see the Plan tab note on why it's not repeated all week.", type:"reps"},
@@ -443,14 +442,14 @@
       ]},
     wed: { label: "Boulder — Power-Endurance (4×4)", sub: "Your #1 lever — trains “hard moves for longer.”",
       items: [
-        {id:"warmup", text:"Warm-up, ramping through V0–V2", meta:"15–18 min", type:"check"},
+        {id:"warmup", text:"Warm-up, ramping through V0–V2", meta:"15–17 min", type:"check"},
         {id:"rounds", text:"4×4 rounds completed — 4 problems ≈2–3 grades below limit, climbed back-to-back", meta:"target: 4 rounds · ~15s between problems · 3–4m between rounds", why:"Sustained effort under incomplete rest builds lactate tolerance.", type:"count", unit:"rounds"},
         {id:"pumpround", text:"Pumped by round #", meta:"if not round 3 or earlier, size up next time", type:"count", unit:"round #"},
         {id:"cooldown", text:"Cooldown stretch", meta:"5 min", type:"check"}
       ]},
     fri: { label: "Lead — Technique + Redpoint", sub: "Freshest lead day — spend it on the project.",
       items: [
-        {id:"warmup", text:"Warm-up", meta:"15–18 min", type:"check"},
+        {id:"warmup", text:"Warm-up", meta:"15–17 min", type:"check"},
         {id:"drill", text:"Technique drill — silent feet / downclimb every route / “First Touch”", meta:"2–3 easy routes", why:"Below 7c, footwork costs more redpoints than raw strength.", type:"check"},
         {id:"project", text:"Project attempts — 6c–7a route", meta:"2–3 attempts · rest 5–8m", type:"count", unit:"attempts"},
         {id:"crux", text:"Crux rehearsal (if you fell)", meta:"2–3 reps · rest 1m", type:"check"},
@@ -461,7 +460,7 @@
       ]},
     sat: { label: "Lead — Endurance / Mileage", sub: "Some residual fatigue from Friday is fine here — that's the point.",
       items: [
-        {id:"warmup", text:"Warm-up", meta:"15–18 min", type:"check"},
+        {id:"warmup", text:"Warm-up", meta:"15–17 min", type:"check"},
         {id:"rounds", text:"Endurance rounds completed — 3 easy routes back-to-back = 1 round", meta:"target: 3–4 rounds · minimal rest between routes within a round · rest 3–5m between rounds", why:"Same logic as Wednesday's 4×4, applied to lead — sustained output under incomplete rest, not one-off attempts with full recovery.", type:"count", unit:"rounds"},
         {id:"tabata", text:"Forearm finisher — Tabata on a jug", meta:"20s hang / 10s rest ×8 (4 min)", type:"check"},
         {id:"core", text:"Core — bicycle crunch ×20 → hollow body hold 20–30s → side plank 25s/side → hanging knee raise ×10", meta:"2 rounds · 60s between", type:"check"},
