@@ -325,6 +325,10 @@
           <p class="a">It's 4 climbing days (Mon/Wed/Fri/Sat) plus Tuesday — but Tuesday only carries general conditioning (push-ups, dips, antagonist, legs, core), which Hörst's own book treats as fine on any day, including "twice per week" antagonist work regardless of climbing schedule. The two things that actually count as sport-specific training — weighted pull-ups and the Tindeq finger check — live on Monday now, inside one of your 4 climbing days, specifically so they don't add a 5th sport-specific day. Thursday's legs/swim option is the same story: general conditioning, not sport-specific, so it doesn't count against the cap either.</p>
         </div>
         <div class="qa">
+          <div class="q">Do bouldering, the 4×4, and the hangboard each get their own "recovery budget"?</div>
+          <p class="a">No — treat them as one shared pool for your fingers. This is the single biggest injury-prevention rule in the whole plan, especially given your pulley history: a hangboard set after a hard bouldering session isn't "light" just because it's a different exercise, since it's the same tendons and pulleys absorbing load either way. Practically: if Monday's limit attempts were genuinely hard, take Monday's Tindeq test or Wednesday's density hangs down a notch (bigger edge, fewer sets) rather than running them at the number written down. Sharp or localized pulley pain is the one signal that overrides everything else in this plan — stop and reduce load immediately, don't push through it.</p>
+        </div>
+        <div class="qa">
           <div class="q">Why Friday = quality, Saturday = endurance?</div>
           <p class="a">Thursday leaves you freshest for Friday's full project attempts. Saturday, with some residual fatigue from Friday, is the better day to train "keep going through the pump."</p>
         </div>
@@ -384,6 +388,19 @@
 
     <section class="view" data-view="data">
       <div class="plansection">
+        <h2>Finger-strength pace check</h2>
+        <div class="lede">Converts your Tindeq numbers into %-of-bodyweight and checks it against a V6 benchmark, so "am I on track" has an actual answer instead of a guess. Recomputed every time you log a Monday Tindeq check.</div>
+        <div class="statgrid">
+          <div class="stat"><div class="label">Bodyweight</div><div class="val"><input type="number" inputmode="decimal" step="0.1" id="bwInput" placeholder="kg" style="width:70px;font:inherit;color:inherit;background:transparent;border:none;border-bottom:1px solid var(--ink,#333);padding:0 0 2px;"><small> kg</small></div></div>
+          <div class="stat"><div class="label">Target date</div><div class="val"><input type="date" id="targetDateInput" style="font:inherit;color:inherit;background:transparent;border:none;border-bottom:1px solid var(--ink,#333);"></div></div>
+        </div>
+        <div id="fingerPaceCard"></div>
+        <div class="callout note prose" style="margin-top:10px;">
+          Benchmark (V6 ≈ 61% BW on a one-arm, ~20mm-edge, half-crimp test) is reconstructed from Lattice Training's public data, not a peer-reviewed table — treat it as directional, especially near the low/high ends of the grade range. Uses the average of your R/L Tindeq readings against your current bodyweight (historical bodyweight isn't tracked separately, so past points use today's figure too — a minor approximation).
+        </div>
+      </div>
+
+      <div class="plansection">
         <h2>Your data</h2>
         <div class="callout note prose">
           Everything logged is saved <strong>only in this browser, on this device</strong> — no account, no server. Clearing site data, or opening this on a different phone, starts fresh. Export below as a backup, or to hand to the real app later.
@@ -425,7 +442,7 @@
     mon: { label: "Boulder — Limit / Power", sub: "Fully rested between tries — a power day, not a fatigue day.",
       items: [
         {id:"warmup", text:"Warm-up", meta:"15–17 min · see Plan tab", type:"check"},
-        {id:"tindeq", text:"Tindeq check — half-crimp, alternate R/L", meta:"Ramp: ~50/70/85% of last week's number, short rest (30/45/60s) → then 4 sets × 7s true max · rest 3m between max sets only", why:"Fingers are freshest here — right after warm-up, before any climbing has happened. Once a week, Monday only, not the priority lever.", type:"tindeq"},
+        {id:"tindeq", text:"Tindeq check — half-crimp, alternate R/L", meta:"Ramp: ~50/70/85% of last week's number, short rest (30/45/60s) → then 4 sets × 7s true max · rest 3m between max sets only", why:"Fingers are freshest here — right after warm-up, before any climbing has happened. Once a week, Monday only, not the priority lever. If last week's climbing was unusually hard on your fingers, back this off a notch rather than chasing a new max — see the recovery-budget note in the Plan tab.", type:"tindeq"},
         {id:"pullups", text:"Pull-ups — same reps as last week, add a little weight", meta:"4 sets · rest 3m · start unweighted", why:"Once your bodyweight rep count is locked in, the next gains come from adding load at that same count, not chasing more reps. This and the Tindeq check are the only sport-specific pull/finger work outside your 4 climbing days — keeping them here, not on a 5th day, is what keeps this at 4 total.", type:"pullreps"},
         {id:"limit", text:"Limit attempts", meta:"3 attempts/problem max · rest 3–5m", why:"Long rest keeps this about power, not endurance.", type:"grade", placeholder:"e.g. V5"},
         {id:"core", text:"Core finisher — bicycle crunch ×20 → hollow body hold 20–30s → side plank 25s/side → hanging knee raise ×10", meta:"2 rounds · 60s between", type:"check"},
@@ -448,6 +465,7 @@
         {id:"rounds", text:"4×4 rounds completed", meta:"target: 4 rounds · ~15s between problems · 3–4m between rounds", why:"Sustained effort under incomplete rest builds lactate tolerance.", type:"count", unit:"rounds"},
         {id:"gradeused", text:"Grade of the 4 problems used", meta:"≈2–3 grades below limit — this is what week 2/3's progression rule reads from", type:"grade", placeholder:"e.g. V2"},
         {id:"pumpround", text:"Pumped by round #", meta:"if not round 3 or earlier, size up next time", type:"count", unit:"round #"},
+        {id:"densityhang", text:"Density hangs — two-arm, edge sized to fail in the window", meta:"2–3 sets · rest 2m · pick an edge you fail on between 20–40s", why:"The connective-tissue piece nothing else in this plan covers — builds pulley/tendon capacity rather than peak force, which is what actually protects a healed pulley long-term. Progress by holding longer before dropping to a smaller edge, not by rushing the clock. Skip a set or size up the edge if the 4×4 above was unusually hard — same recovery budget, see Plan tab.", type:"count", unit:"sec to failure"},
         {id:"core", text:"Core — bicycle crunch ×20 → hollow body hold 20–30s → side plank 25s/side → hanging knee raise ×10", meta:"3 rounds · 60s between", type:"check"},
         {id:"cooldown", text:"Cooldown stretch", meta:"5 min", type:"check"}
       ]},
@@ -543,6 +561,107 @@
     return out;
   }
 
+  /* ---------- finger-strength pace (settings + %BW vs V6 benchmark) ---------- */
+  var SETTINGS_KEY = "clog:settings";
+  function loadSettings(){
+    try{
+      var raw = localStorage.getItem(SETTINGS_KEY);
+      return raw ? JSON.parse(raw) : {};
+    }catch(e){ return {}; }
+  }
+  function saveSettings(patch){
+    var s = loadSettings();
+    for(var k in patch){ if(patch.hasOwnProperty(k)) s[k] = patch[k]; }
+    localStorage.setItem(SETTINGS_KEY, JSON.stringify(s));
+    return s;
+  }
+  function defaultTargetDate(){
+    var d = new Date();
+    d.setDate(d.getDate() + 270); // ~9 months out, editable
+    return isoOf(d);
+  }
+  var VGRADE_BW = [ // one-arm, ~20mm edge, half-crimp, ~7-10s — reconstructed from Lattice Training data, directional only
+    {grade:"V4", pct:49},{grade:"V5", pct:55},{grade:"V6", pct:61},{grade:"V7", pct:67},
+    {grade:"V8", pct:73},{grade:"V9", pct:79},{grade:"V10", pct:85}
+  ];
+  var TARGET_GRADE_PCT = 61; // V6
+
+  function tindeqPointsSorted(){
+    var all = getAllEntries().filter(function(e){ return e.dayKey === "mon"; });
+    var pts = [];
+    for(var i=0;i<all.length;i++){
+      var r = parseFloat(all[i].numbers && all[i].numbers["tindeq-r"]);
+      var l = parseFloat(all[i].numbers && all[i].numbers["tindeq-l"]);
+      var vals = [r,l].filter(function(v){ return !isNaN(v); });
+      if(vals.length){
+        var avg = vals.reduce(function(a,b){return a+b;},0) / vals.length;
+        pts.push({ date: all[i].date, avg: avg });
+      }
+    }
+    pts.sort(function(a,b){ return a.date < b.date ? -1 : (a.date > b.date ? 1 : 0); });
+    return pts;
+  }
+
+  function computeFingerPace(){
+    var settings = loadSettings();
+    var bw = parseFloat(settings.bodyweightKg);
+    var pts = tindeqPointsSorted();
+    if(!bw || !pts.length) return { ready:false, hasBw: !!bw, hasPts: pts.length>0 };
+
+    var first = pts[0], last = pts[pts.length-1];
+    var startPct = (first.avg / bw) * 100;
+    var currentPct = (last.avg / bw) * 100;
+    var targetDateISO = settings.targetDateISO || defaultTargetDate();
+
+    var startMs = new Date(first.date + "T00:00:00").getTime();
+    var targetMs = new Date(targetDateISO + "T00:00:00").getTime();
+    var nowMs = new Date(todayISO() + "T00:00:00").getTime();
+    var totalDays = Math.max(1, (targetMs - startMs) / 86400000);
+    var elapsedDays = Math.max(0, (nowMs - startMs) / 86400000);
+    var frac = Math.min(1, elapsedDays / totalDays);
+    var expectedPct = startPct + (TARGET_GRADE_PCT - startPct) * frac;
+
+    var status = "on";
+    if(currentPct < expectedPct - 2) status = "behind";
+    else if(currentPct > expectedPct + 2) status = "ahead";
+
+    return {
+      ready: true, startPct: startPct, currentPct: currentPct, expectedPct: expectedPct,
+      targetPct: TARGET_GRADE_PCT, status: status, targetDateISO: targetDateISO,
+      firstDate: first.date, lastDate: last.date, pointCount: pts.length
+    };
+  }
+
+  function renderFingerPaceCard(){
+    var bwEl = document.getElementById("bwInput"), tdEl = document.getElementById("targetDateInput");
+    if(!bwEl) return; // data view not in DOM yet on first paint — fine, called again on tab switch
+    var settings = loadSettings();
+    if(document.activeElement !== bwEl) bwEl.value = settings.bodyweightKg || "";
+    if(document.activeElement !== tdEl) tdEl.value = settings.targetDateISO || defaultTargetDate();
+
+    var card = document.getElementById("fingerPaceCard");
+    var pace = computeFingerPace();
+    if(!pace.ready){
+      var msg = !pace.hasBw
+        ? "Enter your bodyweight above to activate this."
+        : "Log at least one Monday Tindeq check to activate this.";
+      card.innerHTML = '<div class="empty">' + escapeHtml(msg) + '</div>';
+      return;
+    }
+    var statusLabel = pace.status === "behind" ? "Behind pace"
+      : pace.status === "ahead" ? "Ahead of pace" : "On pace";
+    var statusColor = pace.status === "behind" ? "var(--brick,#b3462c)"
+      : pace.status === "ahead" ? "var(--moss,#3a7d44)" : "var(--teal,#2f6f6a)";
+    card.innerHTML =
+      '<div class="statgrid">' +
+        '<div class="stat"><div class="label">Current (R/L avg)</div><div class="val">' + pace.currentPct.toFixed(0) + '<small>% BW</small></div></div>' +
+        '<div class="stat"><div class="label">Target (V6)</div><div class="val">' + pace.targetPct + '<small>% BW</small></div></div>' +
+        '<div class="stat"><div class="label">Expected today</div><div class="val">' + pace.expectedPct.toFixed(0) + '<small>% BW pace</small></div></div>' +
+        '<div class="stat"><div class="label">Status</div><div class="val" style="color:' + statusColor + '">' + statusLabel + '</div></div>' +
+      '</div>' +
+      '<div class="callout note prose" style="margin-top:8px;">Baseline ' + friendlyDate(pace.firstDate) + ' → target ' + friendlyDate(pace.targetDateISO) + ', from ' + pace.pointCount + ' logged Monday Tindeq check' + (pace.pointCount===1?'':'s') + '.</div>';
+  }
+
   var current = null;
 
   function itemsForDay(entry){
@@ -625,6 +744,7 @@
     var titles = { today: null, history: "History", plan: "Plan", data: "Your data" };
     document.getElementById("headerTitle").textContent = tab === "today" ? todayHeaderTitle() : titles[tab];
     document.querySelector(".appcontent").scrollTop = 0;
+    if(tab === "data") renderFingerPaceCard();
   }
   function todayHeaderTitle(){
     return friendlyDate(current.date).split(",")[0];
@@ -747,7 +867,7 @@
       persist(current);
       updateRowDone(id);
       if(t.checked) flashRow(id);
-      updateRing(); updateSaveStatus(); updateStreakBadge(); renderDayStrip(); renderHistory();
+      updateRing(); updateSaveStatus(); updateStreakBadge(); renderDayStrip(); renderHistory(); renderFingerPaceCard();
     }
   });
   document.getElementById("dayItems").addEventListener("input", function(e){
@@ -758,8 +878,18 @@
       persist(current);
       var baseId = t.getAttribute("data-item") || key;
       updateRowDone(baseId);
-      updateRing(); updateSaveStatus(); updateStreakBadge(); renderDayStrip(); renderHistory();
+      updateRing(); updateSaveStatus(); updateStreakBadge(); renderDayStrip(); renderHistory(); renderFingerPaceCard();
     }
+  });
+
+  /* ---------- finger-pace settings inputs ---------- */
+  document.getElementById("bwInput").addEventListener("input", function(e){
+    saveSettings({ bodyweightKg: e.target.value });
+    renderFingerPaceCard();
+  });
+  document.getElementById("targetDateInput").addEventListener("change", function(e){
+    saveSettings({ targetDateISO: e.target.value });
+    renderFingerPaceCard();
   });
   document.getElementById("dayNotes").addEventListener("input", function(e){
     current.notes = e.target.value;
@@ -865,5 +995,6 @@
   setAppIcon();
   render(todayISO());
   switchTab("today");
+  renderFingerPaceCard();
 })();
 </script>
