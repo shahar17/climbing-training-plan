@@ -470,7 +470,9 @@
   };
 
   var THU_SUB = {
-    rest: { label: "Full rest", items: [] },
+    rest: { label: "Full rest", items: [
+      {id:"rested", text:"Full rest — taking it counts", meta:"", type:"check"}
+    ] },
     legs: { label: "Legs & mobility", items: [
       {id:"squat", text:"Bodyweight squats", meta:"3×15", type:"check"},
       {id:"singleleg", text:"Single-leg squat progression", meta:"3×6/leg", type:"check"},
@@ -484,7 +486,7 @@
   };
 
   var DAY_KEYS = ["sun","mon","tue","wed","thu","fri","sat"];
-  var DOW_SHORT = ["Su","Mo","Tu","We","Th","Fr","Sa"];
+  var DOW_SHORT = ["Mo","Tu","We","Th","Fr","Sa","Su"];
   var RING_R = 27, RING_C = 2 * Math.PI * RING_R;
 
   function pad(n){ return n < 10 ? "0" + n : "" + n; }
@@ -498,7 +500,8 @@
   }
   function startOfWeek(iso){
     var d = new Date(iso + "T00:00:00");
-    d.setDate(d.getDate() - d.getDay());
+    var mondayOffset = (d.getDay() + 6) % 7; // Sun=0 -> 6 days back, Mon=1 -> 0, ... Sat=6 -> 5
+    d.setDate(d.getDate() - mondayOffset);
     return isoOf(d);
   }
   function friendlyDate(iso){
@@ -609,6 +612,7 @@
     document.querySelectorAll(".tabbar button").forEach(function(b){ b.classList.toggle("active", b.getAttribute("data-tab") === tab); });
     var titles = { today: null, history: "History", plan: "Plan", data: "Your data" };
     document.getElementById("headerTitle").textContent = tab === "today" ? todayHeaderTitle() : titles[tab];
+    document.querySelector(".appcontent").scrollTop = 0;
   }
   function todayHeaderTitle(){
     return friendlyDate(current.date).split(",")[0];
