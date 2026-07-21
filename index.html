@@ -1,4 +1,11 @@
-<title>7a / V6 Training Plan</title>
+<title>Send Tracker — 7a / V6</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Send Tracker">
+<meta name="theme-color" content="#eef1ee" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#14181a" media="(prefers-color-scheme: dark)">
 <style>
   :root{
     --chalk:#eef1ee; --chalk-dim:#e2e6e2; --ink:#171b1a; --ink-soft:#454d4a;
@@ -31,12 +38,13 @@
     --shadow: 0 1px 2px rgba(23,27,26,0.06), 0 4px 14px rgba(23,27,26,0.05);
   }
 
-  *{box-sizing:border-box;}
-  html,body{margin:0;padding:0;}
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+  html,body{margin:0;padding:0; overscroll-behavior-y:none;}
   body{
     background:var(--chalk); color:var(--ink);
     font-family: Charter, "Bitstream Charter", Cambria, Georgia, serif;
-    font-size:16.5px; line-height:1.6; -webkit-font-smoothing:antialiased;
+    font-size:16.5px; line-height:1.55; -webkit-font-smoothing:antialiased;
+    height:100vh; height:100dvh; overflow:hidden;
   }
   h1,h2,h3,h4,.disp{
     font-family:"Avenir Next","Segoe UI Semibold","Helvetica Neue",Arial,sans-serif;
@@ -44,323 +52,366 @@
   }
   .eyebrow{
     font-family:"Avenir Next","Segoe UI Semibold","Helvetica Neue",Arial,sans-serif;
-    text-transform:uppercase; letter-spacing:0.14em; font-size:0.72rem; font-weight:700; color:var(--teal);
+    text-transform:uppercase; letter-spacing:0.14em; font-size:0.7rem; font-weight:700; color:var(--teal);
   }
   a{color:var(--teal);}
-  .wrap{max-width:960px;margin:0 auto;padding:0 20px 100px;}
-  .prose{max-width:68ch;}
+  .prose{max-width:66ch;}
+  button, input, textarea{font-family:inherit;}
 
-  .topbar{
-    position:sticky; top:0; z-index:20;
-    background:color-mix(in srgb, var(--chalk) 88%, transparent);
-    backdrop-filter:blur(8px); border-bottom:1px solid var(--stone-line);
+  /* ---------- app shell ---------- */
+  .app{display:flex; flex-direction:column; height:100vh; height:100dvh; max-height:100dvh;}
+  .appheader{
+    flex:0 0 auto; display:flex; align-items:center; justify-content:space-between; gap:10px;
+    padding:calc(env(safe-area-inset-top) + 14px) 18px 12px;
+    border-bottom:1px solid var(--stone-line); background:var(--chalk);
   }
-  .topbar-inner{
-    max-width:960px;margin:0 auto;padding:10px 20px;
-    display:flex;gap:8px;align-items:center;overflow-x:auto; scrollbar-width:none;
+  .appheader h1{font-size:1.18rem; margin:0; line-height:1.2;}
+  .streakbadge{
+    display:inline-flex; align-items:center; gap:5px; font-family:"SFMono-Regular",Consolas,monospace;
+    font-size:0.82rem; font-weight:700; color:var(--ochre); background:var(--ochre-ink);
+    padding:4px 11px; border-radius:999px; white-space:nowrap; flex:0 0 auto;
   }
-  .topbar-inner::-webkit-scrollbar{display:none;}
-  .topbar a.pill{
-    flex:0 0 auto;
-    font-family:"Avenir Next","Segoe UI Semibold","Helvetica Neue",Arial,sans-serif;
-    font-size:0.76rem; font-weight:600; color:var(--ink-soft); text-decoration:none;
-    padding:6px 11px; border-radius:999px; border:1px solid transparent; white-space:nowrap;
-  }
-  .topbar a.pill:hover{border-color:var(--stone-line); color:var(--ink);}
 
-  .hero{padding:38px 0 8px;}
-  .hero .eyebrow{margin-bottom:10px;display:block;}
-  .hero h1{font-size:2rem; line-height:1.1; margin:0 0 10px;}
-  .hero p{color:var(--ink-soft); max-width:62ch; margin:0 0 22px; font-size:1.02rem;}
+  .appcontent{flex:1 1 auto; overflow-y:auto; -webkit-overflow-scrolling:touch; padding:16px 18px calc(100px + env(safe-area-inset-bottom));}
+  .view{display:none;}
+  .view.active{display:block;}
 
-  .statgrid{display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:10px; margin-bottom:8px;}
-  .stat{background:var(--card); border:1px solid var(--stone-line); border-radius:10px; padding:11px 13px; box-shadow:var(--shadow);}
-  .stat .label{font-family:"Avenir Next","Segoe UI Semibold","Helvetica Neue",Arial,sans-serif; font-size:0.66rem; text-transform:uppercase; letter-spacing:0.07em; color:var(--ink-soft);}
-  .stat .val{font-family:"SFMono-Regular",Consolas,"Liberation Mono",Menlo,monospace; font-variant-numeric:tabular-nums; font-size:1.18rem; font-weight:600; margin-top:2px;}
-  .stat .val small{font-size:0.68rem; font-weight:500; color:var(--ink-soft); font-family:Charter,Georgia,serif;}
-
-  section{padding:36px 0 6px; border-top:1px solid var(--stone-line);}
-  section:first-of-type{border-top:none;}
-  section h2{font-size:1.38rem; margin:0 0 4px; display:flex; align-items:baseline; gap:10px;}
-  section h2 .eyebrow{margin:0;}
-  section > .lede{color:var(--ink-soft); max-width:64ch; margin:8px 0 18px;}
-
-  .callout{border-radius:10px; padding:15px 17px; margin:14px 0; border:1px solid var(--stone-line); background:var(--card); box-shadow:var(--shadow);}
-  .callout.principle{border-left:4px solid var(--teal);}
-  .callout.note{border-left:4px solid var(--ochre);}
-  .callout ul{margin:8px 0 0; padding-left:1.2em;}
-  .callout li{margin-bottom:6px;}
-  .qa{margin-bottom:16px;}
-  .qa .q{font-family:"Avenir Next","Segoe UI Semibold","Helvetica Neue",Arial,sans-serif; font-weight:700; font-size:0.98rem; margin-bottom:4px;}
-  .qa .a{color:var(--ink-soft); margin:0;}
-
-  .pill{
-    display:inline-flex; align-items:center; font-family:"SFMono-Regular",Consolas,monospace;
-    font-size:0.8rem; font-weight:600; padding:1px 8px; border-radius:6px;
-    background:var(--ochre-ink); color:var(--ochre); border:1px solid color-mix(in srgb, var(--ochre) 40%, transparent);
+  .tabbar{
+    position:fixed; left:0; right:0; bottom:0; z-index:30; display:flex;
+    background:color-mix(in srgb, var(--chalk) 90%, transparent); backdrop-filter:blur(12px);
+    border-top:1px solid var(--stone-line); padding:6px 4px calc(6px + env(safe-area-inset-bottom));
   }
-  .pill.teal{background:transparent; color:var(--teal); border-color:color-mix(in srgb, var(--teal) 45%, transparent);}
+  .tabbar button{
+    flex:1; display:flex; flex-direction:column; align-items:center; gap:3px; padding:7px 2px;
+    background:none; border:none; color:var(--ink-soft); cursor:pointer;
+    font-family:"Avenir Next","Segoe UI Semibold","Helvetica Neue",Arial,sans-serif; font-size:0.66rem; font-weight:600;
+  }
+  .tabbar button svg{width:22px; height:22px; stroke:var(--ink-soft);}
+  .tabbar button.active{color:var(--teal);}
+  .tabbar button.active svg{stroke:var(--teal);}
 
-  .tblwrap{overflow-x:auto; border:1px solid var(--stone-line); border-radius:10px; margin:12px 0 20px;}
-  table{border-collapse:collapse; width:100%; min-width:560px; font-size:0.88rem;}
-  th,td{text-align:left; padding:8px 11px; border-bottom:1px solid var(--stone-line); vertical-align:top;}
-  thead th{
-    font-family:"Avenir Next","Segoe UI Semibold","Helvetica Neue",Arial,sans-serif;
-    text-transform:uppercase; font-size:0.65rem; letter-spacing:0.05em; color:var(--ink-soft);
-    background:var(--chalk-dim);
+  /* ---------- today: week strip ---------- */
+  .weekbar{display:flex; align-items:center; gap:6px; margin-bottom:6px;}
+  .weeknav{
+    flex:0 0 auto; width:30px; height:30px; border-radius:50%; border:1px solid var(--stone-line);
+    background:var(--card); color:var(--ink); font-size:1rem; display:flex; align-items:center; justify-content:center;
   }
-  tbody tr:last-child td{border-bottom:none;}
-  td.num, th.num{font-family:"SFMono-Regular",Consolas,monospace; font-variant-numeric:tabular-nums; white-space:nowrap;}
-  tbody tr:hover{background:var(--chalk-dim);}
+  .daychips{flex:1 1 auto; display:flex; gap:5px; justify-content:space-between;}
+  .daychip{
+    flex:1 1 0; display:flex; flex-direction:column; align-items:center; gap:2px; padding:7px 2px;
+    border-radius:12px; background:var(--card); border:1px solid var(--stone-line); position:relative; min-width:0;
+  }
+  .daychip .dow{font-size:0.6rem; text-transform:uppercase; letter-spacing:0.03em; color:var(--ink-soft); font-family:"Avenir Next","Segoe UI Semibold","Helvetica Neue",Arial,sans-serif; font-weight:700;}
+  .daychip .num{font-family:"SFMono-Regular",Consolas,monospace; font-weight:700; font-size:0.98rem;}
+  .daychip.today{border-color:var(--teal);}
+  .daychip.selected{background:var(--teal);}
+  .daychip.selected .dow, .daychip.selected .num{color:var(--accent-ink);}
+  .daychip .dot{position:absolute; bottom:3px; width:4px; height:4px; border-radius:50%; background:var(--moss);}
+  .daychip.selected .dot{background:var(--accent-ink);}
 
-  /* ---- interactive tracker ---- */
-  .trackcard{background:var(--card); border:1px solid var(--stone-line); border-radius:12px; padding:16px 18px; box-shadow:var(--shadow); margin-bottom:16px;}
-  .daterow{display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-bottom:6px;}
-  .daterow input[type=date]{
-    font-family:"SFMono-Regular",Consolas,monospace; font-size:0.88rem; padding:7px 10px;
-    border:1px solid var(--stone-line); border-radius:8px; background:var(--chalk); color:var(--ink);
+  .weekactions{display:flex; align-items:center; justify-content:center; gap:10px; margin:2px 0 16px;}
+  .linkbtn{
+    background:none; border:none; color:var(--teal); font-size:0.8rem; font-weight:600;
+    font-family:"Avenir Next","Segoe UI Semibold","Helvetica Neue",Arial,sans-serif; cursor:pointer; padding:4px 6px;
+    display:inline-flex; align-items:center; gap:5px;
   }
-  .iconbtn{
-    width:34px;height:34px; border-radius:8px; border:1px solid var(--stone-line); background:var(--chalk);
-    color:var(--ink); font-size:1rem; cursor:pointer; display:flex; align-items:center; justify-content:center;
+  .linkbtn svg{width:15px; height:15px; stroke:var(--teal);}
+  #logDate{
+    font-family:"SFMono-Regular",Consolas,monospace; font-size:0.85rem; padding:6px 9px; border:1px solid var(--stone-line);
+    border-radius:8px; background:var(--card); color:var(--ink); display:none;
   }
-  .iconbtn:hover{background:var(--chalk-dim);}
-  .todaybtn{
-    font-family:"Avenir Next","Segoe UI Semibold","Helvetica Neue",Arial,sans-serif; font-size:0.76rem; font-weight:600;
-    color:var(--teal); background:transparent; border:1px solid color-mix(in srgb, var(--teal) 45%, transparent);
-    border-radius:999px; padding:6px 12px; cursor:pointer;
-  }
-  .daylabel{display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap; margin:10px 0 6px;}
-  .daylabel h3{font-size:1.08rem; margin:0;}
-  .daylabel .sub{color:var(--ink-soft); font-size:0.85rem;}
-  .progresspill{
-    font-family:"SFMono-Regular",Consolas,monospace; font-size:0.8rem; font-weight:600;
-    padding:3px 11px; border-radius:999px; border:1px solid var(--stone-line); background:var(--chalk); color:var(--ink-soft);
-    white-space:nowrap;
-  }
-  .progresspill.full{background:var(--moss-bg); color:var(--moss); border-color:transparent;}
-  .progresspill.some{background:var(--ochre-ink); color:var(--ochre); border-color:transparent;}
+  #logDate.shown{display:inline-block;}
 
-  .segmented{display:flex; gap:8px; margin:8px 0 14px;}
+  /* ---------- session card ---------- */
+  .sessioncard{
+    background:var(--card); border:1px solid var(--stone-line); border-radius:16px; padding:18px;
+    box-shadow:var(--shadow); margin-bottom:16px; transition:border-color 0.3s ease, background-color 0.3s ease;
+  }
+  .sessioncard.complete{border-color:var(--moss);}
+  .sessionhead{display:flex; align-items:center; gap:14px; margin-bottom:8px;}
+  .ringwrap{position:relative; width:64px; height:64px; flex:0 0 auto;}
+  .ringwrap svg{transform:rotate(-90deg); width:64px; height:64px;}
+  .ringtrack{stroke:var(--stone-line);}
+  .ringval{stroke:var(--teal); stroke-linecap:round; transition:stroke-dashoffset 0.45s cubic-bezier(.4,0,.2,1);}
+  .sessioncard.complete .ringval{stroke:var(--moss);}
+  .ringlabel{position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-family:"SFMono-Regular",Consolas,monospace; font-weight:700; font-size:0.86rem;}
+  .sessiontitle h3{font-size:1.05rem; margin:0 0 2px;}
+  .sessiontitle .sub{color:var(--ink-soft); font-size:0.82rem; line-height:1.35;}
+  .completebanner{
+    display:none; align-items:center; gap:6px; background:var(--moss-bg); color:var(--moss); font-weight:700;
+    font-size:0.85rem; font-family:"Avenir Next","Segoe UI Semibold","Helvetica Neue",Arial,sans-serif;
+    border-radius:10px; padding:9px 12px; margin-bottom:12px;
+  }
+  .sessioncard.complete .completebanner{display:flex;}
+
+  .segmented{display:flex; gap:8px; margin:10px 0 14px;}
   .segmented button{
-    flex:1; padding:10px 6px; border-radius:8px; border:1px solid var(--stone-line); background:var(--chalk);
-    font-family:"Avenir Next","Segoe UI Semibold","Helvetica Neue",Arial,sans-serif; font-weight:600; font-size:0.82rem;
+    flex:1; padding:11px 6px; border-radius:10px; border:1px solid var(--stone-line); background:var(--chalk);
+    font-family:"Avenir Next","Segoe UI Semibold","Helvetica Neue",Arial,sans-serif; font-weight:600; font-size:0.83rem;
     cursor:pointer; color:var(--ink);
   }
   .segmented button.active{background:var(--teal); color:var(--accent-ink); border-color:var(--teal);}
 
-  .item{display:flex; gap:12px; align-items:flex-start; padding:12px 2px; border-bottom:1px solid var(--stone-line); cursor:pointer;}
+  .item{display:flex; gap:12px; align-items:flex-start; padding:13px 4px; border-bottom:1px solid var(--stone-line); border-radius:10px; transition:background-color 0.2s ease;}
   .item:last-child{border-bottom:none;}
-  .item:hover{background:var(--chalk-dim);}
-  .item input[type=checkbox]{width:22px;height:22px;flex:0 0 auto;margin-top:2px;accent-color:var(--teal);}
+  .item.flash{background:var(--moss-bg);}
+  .item input[type=checkbox]{width:24px;height:24px;flex:0 0 auto;margin-top:1px;accent-color:var(--teal);}
   .item .body{flex:1 1 auto; min-width:0;}
-  .item .name{font-family:"Avenir Next","Segoe UI Semibold","Helvetica Neue",Arial,sans-serif; font-weight:600; font-size:0.94rem;}
+  .item .name{font-family:"Avenir Next","Segoe UI Semibold","Helvetica Neue",Arial,sans-serif; font-weight:600; font-size:0.95rem;}
   .item.done .name{color:var(--ink-soft); text-decoration:line-through; text-decoration-color:var(--stone); text-decoration-thickness:1.5px;}
   .item .meta{font-family:"SFMono-Regular",Consolas,monospace; font-size:0.74rem; color:var(--ink-soft); margin-top:2px;}
   .item .why{font-size:0.8rem; color:var(--ink-soft); margin-top:3px; font-style:italic;}
-  .item .numwrap{flex:0 0 auto; display:flex; align-items:center; gap:4px; cursor:auto;}
+  .item .numwrap{flex:0 0 auto; display:flex; align-items:center; gap:4px;}
   .item .numwrap + .numwrap{margin-left:2px;}
   .item .numwrap input{
-    width:58px; padding:7px 8px; border:1px solid var(--stone-line); border-radius:8px;
+    width:56px; padding:7px 8px; border:1px solid var(--stone-line); border-radius:8px;
     background:var(--chalk); color:var(--ink); font-family:"SFMono-Regular",Consolas,monospace;
     font-variant-numeric:tabular-nums; text-align:right; font-size:0.88rem;
   }
-  .item .numwrap .unit{font-size:0.72rem; color:var(--ink-soft); white-space:nowrap;}
+  .item .numwrap .unit{font-size:0.7rem; color:var(--ink-soft); white-space:nowrap;}
 
   textarea{
-    width:100%; min-height:64px; padding:10px 12px; border:1px solid var(--stone-line); border-radius:8px;
+    width:100%; min-height:64px; padding:10px 12px; border:1px solid var(--stone-line); border-radius:10px;
     background:var(--chalk); color:var(--ink); font-family:Charter,Georgia,serif; font-size:0.92rem; resize:vertical;
   }
   .notewrap{margin-top:14px;}
   .notewrap label{
     display:block; font-family:"Avenir Next","Segoe UI Semibold","Helvetica Neue",Arial,sans-serif;
-    font-size:0.72rem; text-transform:uppercase; letter-spacing:0.06em; color:var(--ink-soft); margin-bottom:5px;
+    font-size:0.7rem; text-transform:uppercase; letter-spacing:0.06em; color:var(--ink-soft); margin-bottom:5px;
   }
+  .savestatus{font-size:0.78rem; color:var(--ink-soft); font-family:"SFMono-Regular",Consolas,monospace; margin-top:10px; display:block;}
 
-  .savebar{display:flex; align-items:center; justify-content:space-between; margin-top:12px; gap:10px; flex-wrap:wrap;}
-  .savestatus{font-size:0.8rem; color:var(--ink-soft); font-family:"SFMono-Regular",Consolas,monospace;}
+  /* ---------- reused: plan / history / data views ---------- */
+  .statgrid{display:grid; grid-template-columns:repeat(auto-fit,minmax(130px,1fr)); gap:10px; margin:12px 0 4px;}
+  .stat{background:var(--card); border:1px solid var(--stone-line); border-radius:10px; padding:10px 12px; box-shadow:var(--shadow);}
+  .stat .label{font-family:"Avenir Next","Segoe UI Semibold","Helvetica Neue",Arial,sans-serif; font-size:0.63rem; text-transform:uppercase; letter-spacing:0.06em; color:var(--ink-soft);}
+  .stat .val{font-family:"SFMono-Regular",Consolas,"Liberation Mono",Menlo,monospace; font-variant-numeric:tabular-nums; font-size:1.05rem; font-weight:600; margin-top:2px;}
+  .stat .val small{font-size:0.65rem; font-weight:500; color:var(--ink-soft); font-family:Charter,Georgia,serif;}
+
+  .plansection{margin-bottom:30px;}
+  .plansection h2{font-size:1.1rem; margin:0 0 4px;}
+  .plansection .lede{color:var(--ink-soft); font-size:0.88rem; margin:4px 0 14px;}
+
+  .callout{border-radius:12px; padding:15px 16px; margin:12px 0; border:1px solid var(--stone-line); background:var(--card); box-shadow:var(--shadow);}
+  .callout.note{border-left:4px solid var(--ochre);}
+  .qa{margin-bottom:14px;}
+  .qa .q{font-family:"Avenir Next","Segoe UI Semibold","Helvetica Neue",Arial,sans-serif; font-weight:700; font-size:0.94rem; margin-bottom:4px;}
+  .qa .a{color:var(--ink-soft); margin:0; font-size:0.9rem;}
+
+  .pill{
+    display:inline-flex; align-items:center; font-family:"SFMono-Regular",Consolas,monospace;
+    font-size:0.78rem; font-weight:600; padding:1px 8px; border-radius:6px;
+    background:var(--ochre-ink); color:var(--ochre); border:1px solid color-mix(in srgb, var(--ochre) 40%, transparent);
+  }
+  .pill.teal{background:transparent; color:var(--teal); border-color:color-mix(in srgb, var(--teal) 45%, transparent);}
+
+  .tblwrap{overflow-x:auto; border:1px solid var(--stone-line); border-radius:10px; margin:10px 0 16px;}
+  table{border-collapse:collapse; width:100%; min-width:480px; font-size:0.85rem;}
+  th,td{text-align:left; padding:8px 10px; border-bottom:1px solid var(--stone-line); vertical-align:top;}
+  thead th{
+    font-family:"Avenir Next","Segoe UI Semibold","Helvetica Neue",Arial,sans-serif;
+    text-transform:uppercase; font-size:0.63rem; letter-spacing:0.05em; color:var(--ink-soft); background:var(--chalk-dim);
+  }
+  tbody tr:last-child td{border-bottom:none;}
+  td.num, th.num{font-family:"SFMono-Regular",Consolas,monospace; font-variant-numeric:tabular-nums; white-space:nowrap;}
 
   .btn{
-    display:inline-flex; align-items:center; gap:6px; padding:9px 16px; border-radius:8px; border:1px solid var(--teal);
+    display:inline-flex; align-items:center; gap:6px; padding:11px 18px; border-radius:10px; border:1px solid var(--teal);
     background:transparent; color:var(--teal); font-family:"Avenir Next","Segoe UI Semibold","Helvetica Neue",Arial,sans-serif;
-    font-weight:600; font-size:0.85rem; cursor:pointer;
+    font-weight:600; font-size:0.88rem; cursor:pointer;
   }
-  .btn:hover{background:color-mix(in srgb, var(--teal) 12%, transparent);}
-  .btn:disabled{opacity:0.4; cursor:not-allowed;}
   .btn.solid{background:var(--teal); color:var(--accent-ink);}
 
-  .historyrow{display:flex; align-items:center; gap:12px; padding:10px 2px; border-bottom:1px solid var(--stone-line); cursor:pointer;}
+  .historyrow{display:flex; align-items:center; gap:12px; padding:12px 4px; border-bottom:1px solid var(--stone-line);}
   .historyrow:last-child{border-bottom:none;}
-  .historyrow:hover{background:var(--chalk-dim);}
-  .historyrow .d{font-family:"SFMono-Regular",Consolas,monospace; font-size:0.82rem; width:96px; flex:0 0 auto; color:var(--ink-soft);}
+  .historyrow .d{font-family:"SFMono-Regular",Consolas,monospace; font-size:0.8rem; width:88px; flex:0 0 auto; color:var(--ink-soft);}
   .historyrow .t{flex:1 1 auto; min-width:0;}
   .historyrow .t .tt{font-size:0.9rem; font-weight:600;}
   .historyrow .t .note{color:var(--ink-soft); font-size:0.78rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
   .empty{color:var(--ink-soft); font-size:0.9rem; font-style:italic; padding:8px 2px;}
 
-  a:focus-visible, summary:focus-visible, button:focus-visible, input:focus-visible{outline:2px solid var(--teal); outline-offset:2px;}
-  footer{padding:28px 0 10px; color:var(--ink-soft); font-size:0.85rem;}
+  a:focus-visible, button:focus-visible, input:focus-visible{outline:2px solid var(--teal); outline-offset:2px;}
 </style>
 
-<div class="topbar">
-  <div class="topbar-inner">
-    <a class="pill" href="#answers">Questions</a>
-    <a class="pill" href="#week">Week</a>
-    <a class="pill" href="#today">Log workout</a>
-    <a class="pill" href="#history">History</a>
-    <a class="pill" href="#warmup">Warm-up</a>
-    <a class="pill" href="#progression">Progression</a>
-    <a class="pill" href="#data">Data &amp; export</a>
-  </div>
-</div>
+<div class="app">
+  <header class="appheader">
+    <h1 id="headerTitle">Today</h1>
+    <span class="streakbadge" id="streakBadge">🔥 0</span>
+  </header>
 
-<div class="wrap">
+  <main class="appcontent">
 
-  <div class="hero">
-    <span class="eyebrow">Weekly training protocol · now with a real tracker</span>
-    <h1>Sessions, sets, reps — and a place to tick them off</h1>
-    <p>Days corrected to your gym rhythm: boulder Monday/Wednesday, lead Friday/Saturday. Everything below is now interactive — check items off, log weight for weighted lifts, add notes, and see your history build up.</p>
-
-    <div class="statgrid">
-      <div class="stat"><div class="label">Lead now → target</div><div class="val">6b+ <small>→ 7a</small></div></div>
-      <div class="stat"><div class="label">Boulder now → target</div><div class="val">V3 easy <small>→ V6</small></div></div>
-      <div class="stat"><div class="label">Pull-ups (BW)</div><div class="val">10 <small>reps</small></div></div>
-      <div class="stat"><div class="label">Weighted pull-up</div><div class="val">+10 <small>kg × 3</small></div></div>
-      <div class="stat"><div class="label">Push-ups</div><div class="val">~5 <small>weak link</small></div></div>
-      <div class="stat"><div class="label">Tindeq R / L</div><div class="val">44 / 35 <small>kg</small></div></div>
-    </div>
-  </div>
-
-  <section id="answers">
-    <h2><span class="eyebrow">01</span> About the day change</h2>
-
-    <div class="qa">
-      <div class="q">Is Mon/Wed boulder, Fri/Sat lead a problem?</div>
-      <p class="a">Not the shape of it — you still get 2 boulder + 2 lead days, same logic as before, just moved to fit your week. The one thing I changed from what you described: you said Mon/Tue/Wed would <em>all</em> be at the boulder gym "doing all my exercises." If Tuesday means hard climbing too, that's 3 straight days of high-force finger loading, which is more than the usual 4-day/week ceiling and a real overuse-injury setup — especially given your finger history. So below, <strong>Tuesday stays at the boulder gym but is a no-climbing strength day</strong> (pull-ups, push-ups, legs, core, Tindeq check) — fingers get a break between Monday's limit day and Wednesday's 4×4 day, while you still only need to show up at one gym. If you'd genuinely rather climb Tuesday too, easy technique mileage only, no limit attempts and no 4×4, would be the least-risky version.</p>
-    </div>
-
-    <div class="qa">
-      <div class="q">Why Friday = quality, Saturday = endurance?</div>
-      <p class="a">Thursday (rest/legs/swim) leaves you freshest for Friday, so that's when you want full attempts on your project. Saturday, climbing with some residual fatigue from Friday, is actually the better day to train "keep going through the pump" — that's the specific quality endurance day is for.</p>
-    </div>
-
-    <div class="qa">
-      <div class="q">Can I occasionally swap Wednesday's boulder with Saturday's lead?</div>
-      <p class="a">Yes, and no, you don't need to rebuild anything for it — this is a one-week tactical swap, not a change to the underlying logic. The week is built as two blocks, each "fresh quality day → endurance day," and the swap only touches the two <em>endurance</em> slots (Wed 4×4 and Sat mileage) — Monday and Friday, your two quality days, are untouched either way. The one thing worth knowing: right now the more explosive session (boulder 4×4) sits in the safer slot — buffered by Tuesday's rest day — while the steadier one (lead mileage) sits in the slot with zero recovery, straight after Friday. Swap them and you're doing dynamic, powerful bouldering on already-tired fingers with no rest day behind it — exactly the combination that causes acute tweaks, especially with your finger history. So: swap occasionally without worry, just dial the 4×4 back that week (3 rounds instead of 4, easier problems) rather than running it at full intensity when it lands the day after a climbing session.</p>
-    </div>
-  </section>
-
-  <section id="week">
-    <h2><span class="eyebrow">02</span> Week at a glance</h2>
-    <div class="tblwrap">
-      <table>
-        <thead><tr><th>Day</th><th>Session</th><th>Focus</th></tr></thead>
-        <tbody>
-          <tr><td>Mon</td><td>Boulder — limit / power</td><td>V4–V6 attempts, fully rested between tries</td></tr>
-          <tr><td>Tue</td><td>Gym — strength, core &amp; finger check</td><td>Pull, push, legs, core, Tindeq (no climbing)</td></tr>
-          <tr><td>Wed</td><td>Boulder — power-endurance (4×4)</td><td>Your #1 lever — sustained hard moves</td></tr>
-          <tr><td>Thu</td><td>Flexible</td><td>Rest, or legs &amp; mobility, or swim — your call</td></tr>
-          <tr><td>Fri</td><td>Lead — technique + redpoint</td><td>Fresh quality attempts on your 6c–7a project</td></tr>
-          <tr><td>Sat</td><td>Lead — endurance / mileage</td><td>Fighting the pump over a full route</td></tr>
-          <tr><td>Sun</td><td>Rest</td><td>Full rest</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </section>
-
-  <section id="today">
-    <h2><span class="eyebrow">03</span> Log today's workout</h2>
-    <div class="lede prose">Pick a date, tick items as you go, fill in weight where it applies. It saves automatically to this device.</div>
-
-    <div class="trackcard">
-      <div class="daterow">
-        <button class="iconbtn" id="prevDay" aria-label="Previous day">‹</button>
+    <section class="view active" data-view="today">
+      <div class="weekbar">
+        <button class="weeknav" id="prevWeek" aria-label="Previous week">‹</button>
+        <div class="daychips" id="dayChips"></div>
+        <button class="weeknav" id="nextWeek" aria-label="Next week">›</button>
+      </div>
+      <div class="weekactions">
+        <button class="linkbtn" id="jumpToday">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="12" cy="12" r="9"/></svg>
+          Today
+        </button>
+        <button class="linkbtn" id="toggleDateInput">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><rect x="3" y="5" width="18" height="16" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="8" y1="3" x2="8" y2="7"/><line x1="16" y1="3" x2="16" y2="7"/></svg>
+          Jump to date
+        </button>
         <input type="date" id="logDate">
-        <button class="iconbtn" id="nextDay" aria-label="Next day">›</button>
-        <button class="todaybtn" id="jumpToday">Today</button>
       </div>
 
-      <div class="daylabel">
-        <h3 id="dayTitle">—</h3>
-        <span class="progresspill" id="progressPill">0/0</span>
-      </div>
-      <div class="sub" id="daySub" style="color:var(--ink-soft);font-size:0.85rem;margin-bottom:8px;"></div>
+      <div class="sessioncard" id="sessionCard">
+        <div class="completebanner">✓ Session complete — nice work.</div>
+        <div class="sessionhead">
+          <div class="ringwrap">
+            <svg viewBox="0 0 64 64">
+              <circle class="ringtrack" cx="32" cy="32" r="27" fill="none" stroke-width="6"></circle>
+              <circle class="ringval" id="ringVal" cx="32" cy="32" r="27" fill="none" stroke-width="6"></circle>
+            </svg>
+            <div class="ringlabel" id="ringLabel">0/0</div>
+          </div>
+          <div class="sessiontitle">
+            <h3 id="dayTitle">—</h3>
+            <div class="sub" id="daySub"></div>
+          </div>
+        </div>
 
-      <div id="thuChooser" style="display:none">
-        <div class="segmented" id="thuSeg">
-          <button data-thu="rest">Full rest</button>
-          <button data-thu="legs">Legs &amp; mobility</button>
-          <button data-thu="swim">Swim</button>
+        <div id="thuChooser" style="display:none">
+          <div class="segmented" id="thuSeg">
+            <button data-thu="rest">Full rest</button>
+            <button data-thu="legs">Legs & mobility</button>
+            <button data-thu="swim">Swim</button>
+          </div>
+        </div>
+
+        <div id="dayItems"></div>
+
+        <div class="notewrap">
+          <label for="dayNotes">Notes — anything worth remembering, or why something got skipped</label>
+          <textarea id="dayNotes" placeholder="e.g. skipped dips, shoulder felt tight. Felt strong on the 4×4, size up next week."></textarea>
+        </div>
+        <span class="savestatus" id="saveStatus">Not saved yet</span>
+      </div>
+    </section>
+
+    <section class="view" data-view="history">
+      <div class="plansection">
+        <h2>History</h2>
+        <div class="lede">Every date you've logged something, most recent first. Tap one to reopen it.</div>
+        <div id="historyList"><div class="empty">Nothing logged yet — head to Today and fill in a session.</div></div>
+      </div>
+    </section>
+
+    <section class="view" data-view="plan">
+      <div class="plansection">
+        <h2>Where you're at</h2>
+        <div class="statgrid">
+          <div class="stat"><div class="label">Lead now → target</div><div class="val">6b+ <small>→ 7a</small></div></div>
+          <div class="stat"><div class="label">Boulder now → target</div><div class="val">V3 easy <small>→ V6</small></div></div>
+          <div class="stat"><div class="label">Pull-ups (BW)</div><div class="val">10 <small>reps</small></div></div>
+          <div class="stat"><div class="label">Weighted pull-up</div><div class="val">+10 <small>kg × 3</small></div></div>
+          <div class="stat"><div class="label">Push-ups</div><div class="val">~5 <small>weak link</small></div></div>
+          <div class="stat"><div class="label">Tindeq R / L</div><div class="val">44 / 35 <small>kg</small></div></div>
         </div>
       </div>
 
-      <div id="dayItems"></div>
-
-      <div class="notewrap">
-        <label for="dayNotes">Notes for this session — anything worth remembering, or why something got skipped</label>
-        <textarea id="dayNotes" placeholder="e.g. skipped dips, shoulder felt tight. Felt strong on the 4x4, size up next week."></textarea>
+      <div class="plansection">
+        <h2>About the day layout</h2>
+        <div class="qa">
+          <div class="q">Is Mon/Wed boulder, Fri/Sat lead a problem?</div>
+          <p class="a">Not the shape of it — 2 boulder + 2 lead either way. Tuesday stays at the boulder gym but is a no-climbing strength day, so fingers get a break between Monday's limit day and Wednesday's 4×4 — three straight days of hard finger loading was the one thing worth avoiding, especially with your history.</p>
+        </div>
+        <div class="qa">
+          <div class="q">Why Friday = quality, Saturday = endurance?</div>
+          <p class="a">Thursday leaves you freshest for Friday's full project attempts. Saturday, with some residual fatigue from Friday, is the better day to train "keep going through the pump."</p>
+        </div>
+        <div class="qa">
+          <div class="q">Can I occasionally swap Wednesday's boulder with Saturday's lead?</div>
+          <p class="a">Yes, no rebuild needed — it only touches the two endurance slots, not the quality days. Just know the more explosive session (4×4) is normally buffered by Tuesday's rest; swapped onto Saturday it lands straight after a climbing day, so dial it back that week (3 rounds, easier problems) rather than pushing full intensity.</p>
+        </div>
       </div>
 
-      <div class="savebar">
-        <span class="savestatus" id="saveStatus">Not saved yet</span>
+      <div class="plansection">
+        <h2>Week at a glance</h2>
+        <div class="tblwrap">
+          <table>
+            <thead><tr><th>Day</th><th>Session</th><th>Focus</th></tr></thead>
+            <tbody>
+              <tr><td>Mon</td><td>Boulder — limit / power</td><td>V4–V6, fully rested between tries</td></tr>
+              <tr><td>Tue</td><td>Gym — strength &amp; finger check</td><td>Pull, push, legs, core, Tindeq</td></tr>
+              <tr><td>Wed</td><td>Boulder — power-endurance (4×4)</td><td>Your #1 lever</td></tr>
+              <tr><td>Thu</td><td>Flexible</td><td>Rest, legs, or swim</td></tr>
+              <tr><td>Fri</td><td>Lead — technique + redpoint</td><td>Fresh project attempts</td></tr>
+              <tr><td>Sat</td><td>Lead — endurance / mileage</td><td>Fighting the pump</td></tr>
+              <tr><td>Sun</td><td>Rest</td><td>Full rest</td></tr>
+            </tbody>
+          </table>
+        </div>
       </div>
-    </div>
-  </section>
 
-  <section id="history">
-    <h2><span class="eyebrow">04</span> History</h2>
-    <div class="lede prose">Every date you've logged something, most recent first. Tap one to reopen it.</div>
-    <div class="trackcard">
-      <div id="historyList"><div class="empty">Nothing logged yet — fill in today's session above.</div></div>
-    </div>
-  </section>
+      <div class="plansection">
+        <h2>Standard warm-up</h2>
+        <div class="lede">Before every climbing day (Mon/Wed/Fri/Sat), ~15–18 minutes.</div>
+        <div class="tblwrap">
+          <table>
+            <tbody>
+              <tr><td class="num">1</td><td>Pulse raiser — light cardio</td><td class="num">5 min</td></tr>
+              <tr><td class="num">2</td><td>Joint circles — shoulders/wrists/hips</td><td class="num">2 min</td></tr>
+              <tr><td class="num">3</td><td>Finger prep — flicks/curls, 3× 10s hang</td><td class="num">2 min</td></tr>
+              <tr><td class="num">4</td><td>Climbing ramp — 4–6 easy problems/routes</td><td class="num">8–10 min</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
 
-  <section id="warmup">
-    <h2><span class="eyebrow">05</span> The standard warm-up</h2>
-    <div class="lede prose">Same on every climbing day (Mon/Wed/Fri/Sat), before anything else. ~15–18 minutes total.</div>
-    <div class="tblwrap">
-      <table>
-        <thead><tr><th class="num">Step</th><th>What</th><th class="num">Time</th></tr></thead>
-        <tbody>
-          <tr><td class="num">1</td><td>Pulse raiser — light cardio (bike, jump rope, brisk movement)</td><td class="num">5 min</td></tr>
-          <tr><td class="num">2</td><td>Joint circles — shoulders ×15 each way, wrists ×10 each way, hips ×10 each way</td><td class="num">2 min</td></tr>
-          <tr><td class="num">3</td><td>Finger prep — finger flicks/curls ×30, then 3× 10s hang on a jug</td><td class="num">2 min</td></tr>
-          <tr><td class="num">4</td><td>Climbing ramp — 4–6 problems/routes well below your limit (V0–1 / 5a–5b), increasing difficulty</td><td class="num">8–10 min</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </section>
+      <div class="plansection">
+        <h2>How the numbers progress</h2>
+        <div class="lede">Repeat the week for 3 weeks building load, then deload + retest on week 4.</div>
+        <div class="tblwrap">
+          <table>
+            <tbody>
+              <tr><td class="num">1</td><td>Baseline — exactly as prescribed.</td></tr>
+              <tr><td class="num">2</td><td>+1 rep push-ups/squats. Bump 4×4 grade if no pump by round 3.</td></tr>
+              <tr><td class="num">3</td><td>+1.25–2.5kg weighted pull-ups if 4×5 was clean twice. Bump limit-boulder grade if 2 of 3–4 went down.</td></tr>
+              <tr><td class="num">4</td><td><strong>Deload</strong> ~40% volume. Retest Tindeq, pull-ups, push-ups, hardest send/redpoint.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
 
-  <section id="progression">
-    <h2><span class="eyebrow">06</span> How the numbers progress</h2>
-    <div class="lede prose">Repeat the week for three weeks, building load each week, then deload and retest on week 4.</div>
-    <div class="tblwrap">
-      <table>
-        <thead><tr><th class="num">Week</th><th>What changes</th></tr></thead>
-        <tbody>
-          <tr><td class="num">1</td><td>Baseline — exactly as prescribed.</td></tr>
-          <tr><td class="num">2</td><td>+1 rep on push-up and squat sets. Bump the 4×4 problems up half a grade if you didn't reach a real pump by round 3 in week 1.</td></tr>
-          <tr><td class="num">3</td><td>+1.25–2.5 kg on weighted pull-ups if 4×5 was clean for two sessions running. Bump limit-bouldering attempts to the next grade if 2 of 3–4 problems went down.</td></tr>
-          <tr><td class="num">4</td><td><strong>Deload</strong> — cut volume ~40% everywhere. Retest: Tindeq, pull-up max reps, weighted pull-up 5RM, push-up max, hardest clean boulder, hardest redpoint. Start the next block from the new numbers.</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </section>
+    <section class="view" data-view="data">
+      <div class="plansection">
+        <h2>Your data</h2>
+        <div class="callout note prose">
+          Everything logged is saved <strong>only in this browser, on this device</strong> — no account, no server. Clearing site data, or opening this on a different phone, starts fresh. Export below as a backup, or to hand to the real app later.
+        </div>
+        <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+          <button class="btn solid" id="exportBtn">Export all data (.json)</button>
+        </div>
+        <span class="savestatus" id="exportStatus"></span>
+      </div>
+    </section>
 
-  <section id="data">
-    <h2><span class="eyebrow">07</span> Your data &amp; export</h2>
-    <div class="callout note prose">
-      Everything you log is saved <strong>only in this browser, on this device</strong> — there's no account, no server, and nothing is sent anywhere, whether you open this from Claude or from a hosted link. That's true no matter where this page lives: it means clearing Safari's site data (or opening the link on a different phone, or a friend opening the same link) starts from a blank tracker. Use <strong>Export</strong> below to save a backup file whenever you like — that same file is what you'd hand to the real iPhone app once it exists.
-    </div>
-    <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
-      <button class="btn solid" id="exportBtn">Export all logged data (.json)</button>
-      <span class="savestatus" id="exportStatus"></span>
-    </div>
-  </section>
+  </main>
 
-  <footer>
-    Heavy/slow work (Tue's weighted pull-ups) builds max strength and tendon stiffness; light/incomplete-rest work (Wed's 4×4) builds power-endurance — the two don't substitute for each other, which is why the week trains both on purpose.
-  </footer>
+  <nav class="tabbar">
+    <button data-tab="today" class="active">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="8 12.5 11 15.5 16 9.5"/></svg>
+      Today
+    </button>
+    <button data-tab="history">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15.5 14"/></svg>
+      History
+    </button>
+    <button data-tab="plan">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 18 9 8 13 14 16 10 21 18"/></svg>
+      Plan
+    </button>
+    <button data-tab="data">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v10"/><polyline points="8 9 12 13 16 9"/><path d="M4 15v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3"/></svg>
+      Data
+    </button>
+  </nav>
 </div>
 
 <script>
@@ -368,40 +419,40 @@
   "use strict";
 
   var TEMPLATES = {
-    mon: { label: "Boulder — Limit / Power", sub: "Fully rested between tries — this is a power day, not a fatigue day.",
+    mon: { label: "Boulder — Limit / Power", sub: "Fully rested between tries — a power day, not a fatigue day.",
       items: [
-        {id:"warmup", text:"Warm-up", meta:"15–18 min · see Warm-up section", type:"check"},
+        {id:"warmup", text:"Warm-up", meta:"15–18 min · see Plan tab", type:"check"},
         {id:"limit", text:"Limit attempts — 3–4 problems at V4–V6", meta:"3 attempts/problem max · rest 3–5m", why:"Long rest keeps this about power, not endurance.", type:"check"},
         {id:"scarymove", text:"One committing move, worked in isolation (pad + spotter)", meta:"3–5 controlled reps", why:"Builds trust in a specific move-type.", type:"check"},
-        {id:"core", text:"Core finisher — plank 40s → hanging knee raise ×10 → side plank 25s/side → bicycle crunch ×20", meta:"2 rounds · 60s between", type:"check"},
+        {id:"core", text:"Core finisher — bicycle crunch ×20 → hollow body hold 20–30s → side plank 25s/side → hanging knee raise ×10", meta:"2 rounds · 60s between", type:"check"},
         {id:"antagwrist", text:"Reverse wrist curl", meta:"2×15/arm", type:"check"},
         {id:"antagpush", text:"Push-ups", meta:"3×max reps", type:"reps"},
         {id:"antagshoulder", text:"Shoulder external rotation", meta:"2×12/arm", type:"check"},
         {id:"cooldown", text:"Cooldown stretch", meta:"5 min", type:"check"}
       ]},
-    tue: { label: "Gym — Strength, Core & Finger Check", sub: "No climbing today — this is the strength base-building day.",
+    tue: { label: "Gym — Strength & Finger Check", sub: "No climbing today — the strength base-building day.",
       items: [
         {id:"warmup", text:"Warm-up — light cardio + dynamic stretch", meta:"8–10 min", type:"check"},
-        {id:"tindeq", text:"Tindeq check — half-crimp, alternate R/L", meta:"4 sets × 7s max pull · rest 3m", why:"Fingers freshest here — this is upkeep + tracking, not the priority lever.", type:"tindeq"},
-        {id:"weightedpullup", text:"Weighted pull-ups", meta:"4×5 · rest 3m", why:"Heavy, slow load builds lock-off strength and tendon stiffness.", type:"weight"},
+        {id:"tindeq", text:"Tindeq check — half-crimp, alternate R/L", meta:"4 sets × 7s max pull · rest 3m · once a week, this day only", why:"Tuesday follows Monday's lower-volume max day, not Wednesday's high-volume 4×4 — fingers read cleaner here than they would the day after a pump session. Upkeep + tracking, not the priority lever.", type:"tindeq"},
+        {id:"pullups", text:"Pull-ups — same reps as last week, add a little weight", meta:"4 sets · rest 3m · start unweighted", why:"Once your bodyweight rep count is locked in, the next gains come from adding load at that same count, not chasing more reps.", type:"pullreps"},
         {id:"pushups", text:"Push-ups — max reps each set", meta:"4 sets · rest 90s", why:"Closes your pull:push gap.", type:"reps"},
         {id:"dips", text:"Dips (banded/assisted if needed)", meta:"3×6–8 · rest 2m", type:"check"},
         {id:"singleleg", text:"Single-leg squat progression", meta:"3×5–6/leg · rest 90s", type:"check"},
-        {id:"lunges", text:"Walking lunges", meta:"2×10/leg · rest 60s", type:"check"},
-        {id:"corecircuit", text:"Core circuit — plank 40s → hanging knee raise ×10 → side plank 25s/side → bicycle crunch ×20", meta:"3 rounds · 60s between", type:"check"},
+        {id:"cossack", text:"Cossack squats", meta:"2×8/side · rest 60s", why:"Stationary — no walking lane needed at a boulder gym — and trains the lateral plane pistols don't.", type:"check"},
+        {id:"corecircuit", text:"Core circuit — bicycle crunch ×20 → hollow body hold 20–30s → side plank 25s/side → hanging knee raise ×10", meta:"3 rounds · 60s between", type:"check"},
         {id:"cooldown", text:"Cooldown — full-body stretch", meta:"10 min", type:"check"}
       ]},
-    wed: { label: "Boulder — Power-Endurance (4×4)", sub: "Your #1 lever — this is the day that trains “hard moves for longer.”",
+    wed: { label: "Boulder — Power-Endurance (4×4)", sub: "Your #1 lever — trains “hard moves for longer.”",
       items: [
         {id:"warmup", text:"Warm-up, ramping through V0–V2", meta:"15–18 min", type:"check"},
-        {id:"rounds", text:"4×4 rounds completed — pick 4 problems ≈2–3 grades below limit, climb back-to-back", meta:"target: 4 rounds · ~15s between problems · 3–4m between rounds", why:"Sustained effort under incomplete rest builds lactate tolerance.", type:"count", unit:"rounds"},
-        {id:"pumpround", text:"Pumped by round #", meta:"if it's not round 3 or earlier, size the problems up next time", type:"count", unit:"round #"},
+        {id:"rounds", text:"4×4 rounds completed — 4 problems ≈2–3 grades below limit, climbed back-to-back", meta:"target: 4 rounds · ~15s between problems · 3–4m between rounds", why:"Sustained effort under incomplete rest builds lactate tolerance.", type:"count", unit:"rounds"},
+        {id:"pumpround", text:"Pumped by round #", meta:"if not round 3 or earlier, size up next time", type:"count", unit:"round #"},
         {id:"antagwrist", text:"Reverse wrist curl", meta:"2×15/arm", type:"check"},
         {id:"antagpush", text:"Push-ups", meta:"3×max reps", type:"reps"},
         {id:"antagshoulder", text:"Shoulder external rotation", meta:"2×12/arm", type:"check"},
         {id:"cooldown", text:"Cooldown stretch", meta:"5 min", type:"check"}
       ]},
-    fri: { label: "Lead — Technique + Redpoint", sub: "Freshest lead day of the week — spend it on the project.",
+    fri: { label: "Lead — Technique + Redpoint", sub: "Freshest lead day — spend it on the project.",
       items: [
         {id:"warmup", text:"Warm-up", meta:"15–18 min", type:"check"},
         {id:"drill", text:"Technique drill — silent feet / downclimb every route / “First Touch”", meta:"2–3 easy routes", why:"Below 7c, footwork costs more redpoints than raw strength.", type:"check"},
@@ -419,7 +470,7 @@
         {id:"mileage", text:"Linked mileage at 6a–6b", meta:"3–4 routes · rest 3–5m", type:"check"},
         {id:"repeatburn", text:"Repeat-burn — project or one grade below", meta:"2 laps · rest 3m", type:"check"},
         {id:"tabata", text:"Forearm finisher — Tabata on a jug", meta:"20s hang / 10s rest ×8 (4 min)", type:"check"},
-        {id:"core", text:"Core — plank 40s → hanging knee raise ×10 → side plank 25s/side → bicycle crunch ×20", meta:"2 rounds · 60s between", type:"check"},
+        {id:"core", text:"Core — bicycle crunch ×20 → hollow body hold 20–30s → side plank 25s/side → hanging knee raise ×10", meta:"2 rounds · 60s between", type:"check"},
         {id:"cooldown", text:"Cooldown stretch", meta:"5–10 min", type:"check"}
       ]},
     sun: { label: "Rest", sub: "Full rest — nothing prescribed.", items: [] }
@@ -430,7 +481,7 @@
     legs: { label: "Legs & mobility", items: [
       {id:"squat", text:"Bodyweight squats", meta:"3×15", type:"check"},
       {id:"singleleg", text:"Single-leg squat progression", meta:"3×6/leg", type:"check"},
-      {id:"lunges", text:"Walking lunges", meta:"2×10/leg", type:"check"},
+      {id:"cossack", text:"Cossack squats", meta:"2×8/side", type:"check"},
       {id:"stretch", text:"Hip flexor / hamstring / adductor stretch", meta:"2×20s each", type:"check"}
     ]},
     swim: { label: "Swim", items: [
@@ -440,17 +491,21 @@
   };
 
   var DAY_KEYS = ["sun","mon","tue","wed","thu","fri","sat"];
+  var DOW_SHORT = ["Su","Mo","Tu","We","Th","Fr","Sa"];
+  var RING_R = 27, RING_C = 2 * Math.PI * RING_R;
 
   function pad(n){ return n < 10 ? "0" + n : "" + n; }
   function isoOf(d){ return d.getFullYear() + "-" + pad(d.getMonth()+1) + "-" + pad(d.getDate()); }
   function todayISO(){ return isoOf(new Date()); }
-  function keyForISO(iso){
-    var d = new Date(iso + "T00:00:00");
-    return DAY_KEYS[d.getDay()];
-  }
+  function keyForISO(iso){ return DAY_KEYS[new Date(iso + "T00:00:00").getDay()]; }
   function shiftISO(iso, delta){
     var d = new Date(iso + "T00:00:00");
     d.setDate(d.getDate() + delta);
+    return isoOf(d);
+  }
+  function startOfWeek(iso){
+    var d = new Date(iso + "T00:00:00");
+    d.setDate(d.getDate() - d.getDay());
     return isoOf(d);
   }
   function friendlyDate(iso){
@@ -459,12 +514,10 @@
   }
 
   function storageKey(iso){ return "clog:" + iso; }
-
   function loadEntry(iso){
     try{
       var raw = localStorage.getItem(storageKey(iso));
-      if(!raw) return null;
-      return JSON.parse(raw);
+      return raw ? JSON.parse(raw) : null;
     }catch(e){ return null; }
   }
   function blankEntry(iso){
@@ -476,7 +529,6 @@
   function persist(entry){
     entry.updatedAt = new Date().toISOString();
     localStorage.setItem(storageKey(entry.date), JSON.stringify(entry));
-    renderHistory();
   }
   function getAllEntries(){
     var out = [];
@@ -490,25 +542,33 @@
     return out;
   }
 
-  var current = null; // in-memory entry for the date currently shown
+  var current = null;
 
   function itemsForDay(entry){
-    var key = entry.dayKey;
-    if(key === "thu"){
-      var sub = THU_SUB[entry.thuChoice || "rest"];
-      return sub.items;
-    }
-    return TEMPLATES[key].items;
+    if(entry.dayKey === "thu") return THU_SUB[entry.thuChoice || "rest"].items;
+    return TEMPLATES[entry.dayKey].items;
   }
-
   function isItemDone(entry, item){
     if(item.type === "check") return !!entry.checks[item.id];
     if(item.type === "tindeq"){
       var r = entry.numbers[item.id + "-r"], l = entry.numbers[item.id + "-l"];
-      return (r !== undefined && r !== "" ) || (l !== undefined && l !== "");
+      return (r !== undefined && r !== "") || (l !== undefined && l !== "");
+    }
+    if(item.type === "pullreps"){
+      var reps = entry.numbers[item.id + "-reps"];
+      return reps !== undefined && reps !== "";
     }
     var v = entry.numbers[item.id];
     return v !== undefined && v !== "";
+  }
+  function progressFor(entry){
+    var items = itemsForDay(entry), done = 0;
+    for(var i=0;i<items.length;i++){ if(isItemDone(entry, items[i])) done++; }
+    return { done: done, total: items.length };
+  }
+  function hasProgress(iso){
+    var e = loadEntry(iso);
+    return !!e && progressFor(e).done > 0;
   }
 
   function escapeHtml(s){
@@ -534,147 +594,200 @@
     } else if(item.type === "tindeq"){
       var r = entry.numbers[item.id + "-r"] !== undefined ? entry.numbers[item.id + "-r"] : "";
       var l = entry.numbers[item.id + "-l"] !== undefined ? entry.numbers[item.id + "-l"] : "";
-      extra = '<div class="numwrap"><input type="number" inputmode="decimal" step="0.5" placeholder="0" value="' + escapeHtml(r) + '" data-num="' + item.id + '-r"><span class="unit">R kg</span></div>' +
-              '<div class="numwrap"><input type="number" inputmode="decimal" step="0.5" placeholder="0" value="' + escapeHtml(l) + '" data-num="' + item.id + '-l"><span class="unit">L kg</span></div>';
+      extra = '<div class="numwrap"><input type="number" inputmode="decimal" step="0.5" placeholder="0" value="' + escapeHtml(r) + '" data-item="' + item.id + '" data-num="' + item.id + '-r"><span class="unit">R kg</span></div>' +
+              '<div class="numwrap"><input type="number" inputmode="decimal" step="0.5" placeholder="0" value="' + escapeHtml(l) + '" data-item="' + item.id + '" data-num="' + item.id + '-l"><span class="unit">L kg</span></div>';
+    } else if(item.type === "pullreps"){
+      var reps = entry.numbers[item.id + "-reps"] !== undefined ? entry.numbers[item.id + "-reps"] : "";
+      var kg = entry.numbers[item.id + "-kg"] !== undefined ? entry.numbers[item.id + "-kg"] : "";
+      extra = '<div class="numwrap"><input type="number" inputmode="numeric" step="1" placeholder="0" value="' + escapeHtml(reps) + '" data-item="' + item.id + '" data-num="' + item.id + '-reps"><span class="unit">reps</span></div>' +
+              '<div class="numwrap"><input type="number" inputmode="decimal" step="0.5" placeholder="0" value="' + escapeHtml(kg) + '" data-item="' + item.id + '" data-num="' + item.id + '-kg"><span class="unit">+kg</span></div>';
     }
     return '<div class="item' + (done ? ' done' : '') + '" data-row="' + item.id + '" data-rowtype="' + item.type + '">' +
       '<div class="body">' +
         '<div class="name">' + escapeHtml(item.text) + '</div>' +
         (item.meta ? '<div class="meta">' + escapeHtml(item.meta) + '</div>' : '') +
         (item.why ? '<div class="why">' + item.why + '</div>' : '') +
-      '</div>' +
-      extra +
-    '</div>';
+      '</div>' + extra + '</div>';
   }
 
-  function progressFor(entry){
-    var items = itemsForDay(entry);
-    var done = 0;
-    for(var i=0;i<items.length;i++){ if(isItemDone(entry, items[i])) done++; }
-    return { done: done, total: items.length };
+  /* ---------- tabs ---------- */
+  function switchTab(tab){
+    document.querySelectorAll(".view").forEach(function(v){ v.classList.toggle("active", v.getAttribute("data-view") === tab); });
+    document.querySelectorAll(".tabbar button").forEach(function(b){ b.classList.toggle("active", b.getAttribute("data-tab") === tab); });
+    var titles = { today: null, history: "History", plan: "Plan", data: "Your data" };
+    document.getElementById("headerTitle").textContent = tab === "today" ? todayHeaderTitle() : titles[tab];
+  }
+  function todayHeaderTitle(){
+    return friendlyDate(current.date).split(",")[0];
+  }
+  document.querySelectorAll(".tabbar button").forEach(function(b){
+    b.addEventListener("click", function(){ switchTab(b.getAttribute("data-tab")); });
+  });
+
+  /* ---------- streak ---------- */
+  function computeStreak(){
+    var count = 0, cursor = shiftISO(todayISO(), -1), guard = 0;
+    while(guard++ < 400){
+      var key = keyForISO(cursor);
+      if(hasProgress(cursor) || key === "sun"){ count++; cursor = shiftISO(cursor, -1); }
+      else break;
+    }
+    if(hasProgress(todayISO())) count++;
+    return count;
+  }
+  function updateStreakBadge(){
+    document.getElementById("streakBadge").textContent = "🔥 " + computeStreak();
+  }
+
+  /* ---------- week strip ---------- */
+  function renderDayStrip(){
+    var start = startOfWeek(current.date);
+    var html = "";
+    for(var i=0;i<7;i++){
+      var iso = shiftISO(start, i);
+      var isToday = iso === todayISO();
+      var isSel = iso === current.date;
+      var d = new Date(iso + "T00:00:00");
+      html += '<button class="daychip' + (isToday?' today':'') + (isSel?' selected':'') + '" data-jump="' + iso + '">' +
+        '<span class="dow">' + DOW_SHORT[i] + '</span><span class="num">' + d.getDate() + '</span>' +
+        (hasProgress(iso) ? '<span class="dot"></span>' : '') +
+      '</button>';
+    }
+    document.getElementById("dayChips").innerHTML = html;
+    document.querySelectorAll("#dayChips .daychip").forEach(function(chip){
+      chip.addEventListener("click", function(){ render(chip.getAttribute("data-jump")); });
+    });
+  }
+
+  /* ---------- session render ---------- */
+  function updateRing(){
+    var prog = progressFor(current);
+    var offset = prog.total ? RING_C * (1 - prog.done / prog.total) : RING_C;
+    var ringVal = document.getElementById("ringVal");
+    ringVal.setAttribute("stroke-dasharray", RING_C);
+    ringVal.setAttribute("stroke-dashoffset", offset);
+    document.getElementById("ringLabel").textContent = prog.total ? (prog.done + "/" + prog.total) : "—";
+    document.getElementById("sessionCard").classList.toggle("complete", prog.total > 0 && prog.done === prog.total);
+  }
+  function updateSaveStatus(){
+    var el = document.getElementById("saveStatus");
+    el.textContent = current.updatedAt
+      ? ("Saved " + new Date(current.updatedAt).toLocaleString(undefined,{hour:"2-digit",minute:"2-digit",month:"short",day:"numeric"}))
+      : "Not saved yet";
   }
 
   function render(iso){
     current = loadEntry(iso) || blankEntry(iso);
     document.getElementById("logDate").value = iso;
+
     var key = current.dayKey;
     var meta = key === "thu" ? { label: TEMPLATES.thu.label, sub: TEMPLATES.thu.sub } : TEMPLATES[key];
-
     document.getElementById("dayTitle").textContent = friendlyDate(iso) + " — " + meta.label;
     document.getElementById("daySub").textContent = meta.sub;
 
     var chooser = document.getElementById("thuChooser");
     if(key === "thu"){
       chooser.style.display = "block";
-      var buttons = chooser.querySelectorAll("button");
-      for(var i=0;i<buttons.length;i++){
-        buttons[i].classList.toggle("active", buttons[i].getAttribute("data-thu") === (current.thuChoice || "rest"));
-      }
+      document.querySelectorAll("#thuSeg button").forEach(function(b){
+        b.classList.toggle("active", b.getAttribute("data-thu") === (current.thuChoice || "rest"));
+      });
     } else {
       chooser.style.display = "none";
     }
 
-    var items = itemsForDay(current);
-    var html = "";
+    var items = itemsForDay(current), html = "";
     for(var j=0;j<items.length;j++){ html += itemRowHtml(current, items[j]); }
     document.getElementById("dayItems").innerHTML = html || '<div class="empty">Nothing scheduled — enjoy the rest.</div>';
-
     document.getElementById("dayNotes").value = current.notes || "";
 
-    var prog = progressFor(current);
-    var pill = document.getElementById("progressPill");
-    pill.textContent = prog.total ? (prog.done + "/" + prog.total) : "—";
-    pill.className = "progresspill" + (prog.total && prog.done === prog.total ? " full" : (prog.done > 0 ? " some" : ""));
-
-    var status = document.getElementById("saveStatus");
-    status.textContent = current.updatedAt ? ("Saved " + new Date(current.updatedAt).toLocaleString(undefined,{hour:"2-digit",minute:"2-digit",month:"short",day:"numeric"})) : "Not saved yet";
+    updateRing();
+    updateSaveStatus();
+    renderDayStrip();
+    updateStreakBadge();
+    renderHistory();
+    if(document.querySelector('.tabbar button[data-tab="today"]').classList.contains("active")){
+      document.getElementById("headerTitle").textContent = todayHeaderTitle();
+    }
   }
 
-  function saveNow(){
-    persist(current);
-    render(current.date);
+  function flashRow(itemId){
+    var row = document.querySelector('.item[data-row="' + itemId + '"]');
+    if(!row) return;
+    row.classList.add("flash");
+    setTimeout(function(){ row.classList.remove("flash"); }, 350);
+  }
+  function updateRowDone(itemId){
+    var row = document.querySelector('.item[data-row="' + itemId + '"]');
+    if(!row) return;
+    var items = itemsForDay(current), item = null;
+    for(var i=0;i<items.length;i++){ if(items[i].id === itemId){ item = items[i]; break; } }
+    if(item) row.classList.toggle("done", isItemDone(current, item));
   }
 
   document.getElementById("dayItems").addEventListener("click", function(e){
     var row = e.target.closest(".item");
-    if(!row) return;
-    if(e.target.tagName === "INPUT") return; // let native input handle itself
-    var checkbox = row.querySelector('input[type=checkbox]');
-    if(checkbox){
-      checkbox.checked = !checkbox.checked;
-      checkbox.dispatchEvent(new Event("change", {bubbles:true}));
-    }
+    if(!row || e.target.tagName === "INPUT") return;
+    var cb = row.querySelector('input[type=checkbox]');
+    if(cb){ cb.checked = !cb.checked; cb.dispatchEvent(new Event("change", {bubbles:true})); }
   });
-
   document.getElementById("dayItems").addEventListener("change", function(e){
     var t = e.target;
     if(t.matches("input[type=checkbox][data-check]")){
-      current.checks[t.getAttribute("data-check")] = t.checked;
-      saveNow();
+      var id = t.getAttribute("data-check");
+      current.checks[id] = t.checked;
+      persist(current);
+      updateRowDone(id);
+      if(t.checked) flashRow(id);
+      updateRing(); updateSaveStatus(); updateStreakBadge(); renderDayStrip(); renderHistory();
     }
   });
-
   document.getElementById("dayItems").addEventListener("input", function(e){
     var t = e.target;
     if(t.matches("input[type=number][data-num]")){
-      current.numbers[t.getAttribute("data-num")] = t.value;
+      var key = t.getAttribute("data-num");
+      current.numbers[key] = t.value;
       persist(current);
-      var row = t.closest(".item");
-      var itemId = row.getAttribute("data-row");
-      var itemType = row.getAttribute("data-rowtype");
-      var items = itemsForDay(current);
-      var item = null;
-      for(var i=0;i<items.length;i++){ if(items[i].id === itemId){ item = items[i]; break; } }
-      if(item){ row.classList.toggle("done", isItemDone(current, item)); }
-      var prog = progressFor(current);
-      var pill = document.getElementById("progressPill");
-      pill.textContent = prog.total ? (prog.done + "/" + prog.total) : "—";
-      pill.className = "progresspill" + (prog.total && prog.done === prog.total ? " full" : (prog.done > 0 ? " some" : ""));
-      var status = document.getElementById("saveStatus");
-      status.textContent = "Saved " + new Date(current.updatedAt).toLocaleString(undefined,{hour:"2-digit",minute:"2-digit",month:"short",day:"numeric"});
+      var baseId = t.getAttribute("data-item") || key;
+      updateRowDone(baseId);
+      updateRing(); updateSaveStatus(); updateStreakBadge(); renderDayStrip(); renderHistory();
     }
   });
-
   document.getElementById("dayNotes").addEventListener("input", function(e){
     current.notes = e.target.value;
     persist(current);
-    document.getElementById("saveStatus").textContent = "Saved " + new Date(current.updatedAt).toLocaleString(undefined,{hour:"2-digit",minute:"2-digit",month:"short",day:"numeric"});
+    updateSaveStatus();
   });
-
   document.getElementById("thuSeg").addEventListener("click", function(e){
     var btn = e.target.closest("button[data-thu]");
     if(!btn) return;
     current.thuChoice = btn.getAttribute("data-thu");
-    saveNow();
+    persist(current);
+    render(current.date);
   });
 
-  document.getElementById("logDate").addEventListener("change", function(e){
-    render(e.target.value);
+  document.getElementById("prevWeek").addEventListener("click", function(){ render(shiftISO(current.date, -7)); });
+  document.getElementById("nextWeek").addEventListener("click", function(){ render(shiftISO(current.date, 7)); });
+  document.getElementById("jumpToday").addEventListener("click", function(){ render(todayISO()); });
+  document.getElementById("toggleDateInput").addEventListener("click", function(){
+    document.getElementById("logDate").classList.toggle("shown");
   });
-  document.getElementById("prevDay").addEventListener("click", function(){
-    render(shiftISO(current.date, -1));
-  });
-  document.getElementById("nextDay").addEventListener("click", function(){
-    render(shiftISO(current.date, 1));
-  });
-  document.getElementById("jumpToday").addEventListener("click", function(){
-    render(todayISO());
-  });
+  document.getElementById("logDate").addEventListener("change", function(e){ render(e.target.value); });
 
+  /* ---------- history ---------- */
   function renderHistory(){
     var all = getAllEntries();
     var el = document.getElementById("historyList");
     if(!all.length){
-      el.innerHTML = '<div class="empty">Nothing logged yet — fill in today’s session above.</div>';
+      el.innerHTML = '<div class="empty">Nothing logged yet — head to Today and fill in a session.</div>';
       return;
     }
     var html = "";
     for(var i=0;i<all.length;i++){
       var e = all[i];
-      var meta = e.dayKey === "thu" ? { label: (THU_SUB[e.thuChoice||"rest"].label) } : TEMPLATES[e.dayKey];
+      var meta = e.dayKey === "thu" ? { label: THU_SUB[e.thuChoice||"rest"].label } : TEMPLATES[e.dayKey];
       var prog = progressFor(e);
       var noteSnippet = e.notes ? escapeHtml(e.notes.slice(0,70)) : "";
-      html += '<div class="historyrow" data-jump="' + e.date + '">' +
+      html += '<div class="historyrow" data-jump="' + e.date + '" style="cursor:pointer">' +
         '<div class="d">' + friendlyDate(e.date) + '</div>' +
         '<div class="t"><div class="tt">' + escapeHtml(meta ? meta.label : e.dayKey) + ' · ' + prog.done + '/' + prog.total + '</div>' +
         (noteSnippet ? '<div class="note">' + noteSnippet + '</div>' : '') +
@@ -684,11 +797,12 @@
     el.querySelectorAll(".historyrow").forEach(function(row){
       row.addEventListener("click", function(){
         render(row.getAttribute("data-jump"));
-        document.getElementById("today").scrollIntoView({behavior:"smooth", block:"start"});
+        switchTab("today");
       });
     });
   }
 
+  /* ---------- export ---------- */
   function downloadViaBlob(filename, text){
     var blob = new Blob([text], {type: "application/json"});
     var url = URL.createObjectURL(blob);
@@ -697,29 +811,50 @@
     document.body.appendChild(a); a.click(); document.body.removeChild(a);
     setTimeout(function(){ URL.revokeObjectURL(url); }, 2000);
   }
-
   document.getElementById("exportBtn").addEventListener("click", function(){
     var status = document.getElementById("exportStatus");
-    var all = getAllEntries();
-    var payload = { exportedAt: new Date().toISOString(), entries: all };
+    var payload = { exportedAt: new Date().toISOString(), entries: getAllEntries() };
     var filename = "climbing-log-" + todayISO() + ".json";
     var json = JSON.stringify(payload, null, 2);
-
     if(window.claude && window.claude.downloads){
       window.claude.downloads.save({ filename: filename, data: json })
         .then(function(){ status.textContent = "Saved."; })
         .catch(function(err){
           if(err && err.code === "declined"){ status.textContent = "Cancelled."; }
-          else { status.textContent = "Couldn't export via Claude — trying browser download…"; downloadViaBlob(filename, json); status.textContent = "Downloaded."; }
+          else { downloadViaBlob(filename, json); status.textContent = "Downloaded."; }
         });
     } else {
-      // Standalone page (e.g. GitHub Pages) — plain browser download, no Claude runtime needed.
       downloadViaBlob(filename, json);
       status.textContent = "Downloaded.";
     }
   });
 
+  /* ---------- home-screen icon ---------- */
+  function setAppIcon(){
+    try{
+      var size = 180;
+      var c = document.createElement("canvas"); c.width = size; c.height = size;
+      var ctx = c.getContext("2d");
+      var r = 38;
+      ctx.fillStyle = "#2f6f6a";
+      ctx.beginPath();
+      ctx.moveTo(r,0); ctx.arcTo(size,0,size,size,r); ctx.arcTo(size,size,0,size,r);
+      ctx.arcTo(0,size,0,0,r); ctx.arcTo(0,0,size,0,r); ctx.closePath(); ctx.fill();
+      ctx.strokeStyle = "#eef1ee"; ctx.lineWidth = 14; ctx.lineCap = "round"; ctx.lineJoin = "round";
+      ctx.beginPath();
+      ctx.moveTo(size*0.27, size*0.54); ctx.lineTo(size*0.44, size*0.70); ctx.lineTo(size*0.75, size*0.32);
+      ctx.stroke();
+      var url = c.toDataURL("image/png");
+      [["apple-touch-icon", url], ["icon", url]].forEach(function(pair){
+        var link = document.createElement("link");
+        link.rel = pair[0]; link.href = pair[1];
+        document.head.appendChild(link);
+      });
+    }catch(e){}
+  }
+
+  setAppIcon();
   render(todayISO());
-  renderHistory();
+  switchTab("today");
 })();
 </script>
