@@ -452,8 +452,8 @@
       items: [
         {id:"warmup", text:"Warm-up — joint mobility, then a few easy ramp-up reps of push-ups", meta:"8–10 min", why:"Ramping into the actual movement beats generic cardio for the same reason it does on climbing days — it's specific to what you're about to load.", type:"check"},
         {id:"pushups", text:"Push-ups — max reps each set", meta:"4 sets · rest 90s", why:"Closes your pull:push gap. Hörst categorizes push/antagonist work as general conditioning, not sport-specific — that's why it can live here without counting against your 4-day cap.", type:"reps"},
-        {id:"dips", text:"Dips (banded/assisted if needed)", meta:"3×6–8 · rest 2m", type:"check"},
-        {id:"antagwrist", text:"Reverse wrist curl", meta:"2×15/arm", why:"Antagonist work twice a week (here + Friday) — elbows and shoulders need recovery between sessions same as any other muscle.", type:"check"},
+        {id:"dips", text:"Dips — band-assisted, max reps each set", meta:"3 sets · rest 2m · use enough band that you can move well, not just survive", why:"3 unassisted was never a real training set — same fix as push-ups: track max reps at whatever assistance you need, and reduce the band as reps climb, instead of grinding a fixed 6–8 you can't hit yet.", type:"reps"},
+        {id:"antagwrist", text:"Reverse wrist curl", meta:"2×15/arm", why:"Climbing loads your finger/wrist flexors hard and your extensors almost never — that imbalance is the standard mechanism behind climber's elbow (medial/lateral epicondylitis). This is cheap insurance against it, not a grade lever, twice a week (here + Friday) since your flexors are getting loaded on 4 separate days.", type:"check"},
         {id:"antagshoulder", text:"Shoulder external rotation", meta:"2×12/arm", type:"check"},
         {id:"singleleg", text:"Single-leg squat progression", meta:"3×5–6/leg · rest 90s", type:"check"},
         {id:"cossack", text:"Cossack squats", meta:"2×8/side · rest 60s", why:"Stationary — no walking lane needed at a boulder gym — and trains the lateral plane pistols don't.", type:"check"},
@@ -465,7 +465,7 @@
         {id:"rounds", text:"4×4 rounds completed", meta:"target: 4 rounds · ~15s between problems · 3–4m between rounds", why:"Sustained effort under incomplete rest builds lactate tolerance.", type:"count", unit:"rounds"},
         {id:"gradeused", text:"Grade of the 4 problems used", meta:"≈2–3 grades below limit — this is what week 2/3's progression rule reads from", type:"grade", placeholder:"e.g. V2"},
         {id:"pumpround", text:"Pumped by round #", meta:"if not round 3 or earlier, size up next time", type:"count", unit:"round #"},
-        {id:"densityhang", text:"Density hangs — two-arm, edge sized to fail in the window", meta:"2–3 sets · rest 2m · pick an edge you fail on between 20–40s", why:"The connective-tissue piece nothing else in this plan covers — builds pulley/tendon capacity rather than peak force, which is what actually protects a healed pulley long-term. Progress by holding longer before dropping to a smaller edge, not by rushing the clock. Skip a set or size up the edge if the 4×4 above was unusually hard — same recovery budget, see Plan tab.", type:"count", unit:"sec to failure"},
+        {id:"densityhang", text:"Density hangs — two-arm, Tindeq attached, edge sized to fail in the window", meta:"2–3 sets · rest 2m · pick an edge you fail on between 20–40s · log hold time and the force Tindeq shows", why:"The connective-tissue piece nothing else in this plan covers — builds pulley/tendon capacity rather than peak force, which is what actually protects a healed pulley long-term. Logged on the Tindeq like Monday's test, not just a stopwatch, so it's an actual number you can compare week to week instead of a guessed edge size. Progress by holding longer (or higher sustained force) before dropping to a smaller edge. Skip a set or size up the edge if the 4×4 above was unusually hard — same recovery budget, see Plan tab.", type:"hangtest"},
         {id:"core", text:"Core — bicycle crunch ×20 → hollow body hold 20–30s → side plank 25s/side → hanging knee raise ×10", meta:"3 rounds · 60s between", type:"check"},
         {id:"cooldown", text:"Cooldown stretch", meta:"5 min", type:"check"}
       ]},
@@ -476,7 +476,7 @@
         {id:"project", text:"Project route + grade", meta:"2–3 attempts · rest 5–8m", why:"Logging the actual grade is what makes the week-3 progression rule (\"bump the grade\") mean anything.", type:"grade", placeholder:"e.g. 6c+"},
         {id:"crux", text:"Crux rehearsal (if you fell)", meta:"2–3 reps · rest 1m", type:"check"},
         {id:"volume", text:"Volume climbing grade", meta:"3–4 routes · rest 1–2m", type:"grade", placeholder:"e.g. 6a"},
-        {id:"antagwrist", text:"Reverse wrist curl", meta:"2×15/arm", why:"Second and last antagonist slot of the week — Tuesday's the other.", type:"check"},
+        {id:"antagwrist", text:"Reverse wrist curl", meta:"2×15/arm", why:"Second and last extensor slot of the week — same elbow-health reasoning as Tuesday's.", type:"check"},
         {id:"antagshoulder", text:"Shoulder external rotation", meta:"2×12/arm", type:"check"},
         {id:"cooldown", text:"Cooldown stretch", meta:"5 min", type:"check"}
       ]},
@@ -682,6 +682,10 @@
       var g = entry.numbers[item.id];
       return g !== undefined && g !== "";
     }
+    if(item.type === "hangtest"){
+      var hs = entry.numbers[item.id + "-sec"], hk = entry.numbers[item.id + "-kg"];
+      return (hs !== undefined && hs !== "") || (hk !== undefined && hk !== "");
+    }
     var v = entry.numbers[item.id];
     return v !== undefined && v !== "";
   }
@@ -728,6 +732,11 @@
       var kg = entry.numbers[item.id + "-kg"] !== undefined ? entry.numbers[item.id + "-kg"] : "";
       extra = '<div class="numwrap"><input type="number" inputmode="numeric" step="1" placeholder="0" value="' + escapeHtml(reps) + '" data-item="' + item.id + '" data-num="' + item.id + '-reps"><span class="unit">reps</span></div>' +
               '<div class="numwrap"><input type="number" inputmode="decimal" step="0.5" placeholder="0" value="' + escapeHtml(kg) + '" data-item="' + item.id + '" data-num="' + item.id + '-kg"><span class="unit">+kg</span></div>';
+    } else if(item.type === "hangtest"){
+      var hs = entry.numbers[item.id + "-sec"] !== undefined ? entry.numbers[item.id + "-sec"] : "";
+      var hk = entry.numbers[item.id + "-kg"] !== undefined ? entry.numbers[item.id + "-kg"] : "";
+      extra = '<div class="numwrap"><input type="number" inputmode="numeric" step="1" placeholder="0" value="' + escapeHtml(hs) + '" data-item="' + item.id + '" data-num="' + item.id + '-sec"><span class="unit">s held</span></div>' +
+              '<div class="numwrap"><input type="number" inputmode="decimal" step="0.5" placeholder="0" value="' + escapeHtml(hk) + '" data-item="' + item.id + '" data-num="' + item.id + '-kg"><span class="unit">Tindeq kg</span></div>';
     }
     return '<div class="item' + (done ? ' done' : '') + '" data-row="' + item.id + '" data-rowtype="' + item.type + '">' +
       '<div class="body">' +
