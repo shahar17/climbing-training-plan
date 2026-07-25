@@ -290,6 +290,20 @@
           </div>
         </div>
 
+        <div id="friChooser" style="display:none">
+          <div class="segmented" id="friSeg">
+            <button data-fri="full">Full session</button>
+            <button data-fri="skipped">Skipped (lead day on Sat instead)</button>
+          </div>
+        </div>
+
+        <div id="satChooser" style="display:none">
+          <div class="segmented" id="satSeg">
+            <button data-sat="full">Full session</button>
+            <button data-sat="skipped">Skipped (lead day on Fri instead)</button>
+          </div>
+        </div>
+
         <div id="dayItems"></div>
 
         <div class="notewrap">
@@ -345,7 +359,7 @@
         </div>
         <div class="qa">
           <div class="q">Some weeks skin or fatigue means I can't do all 4 climbing days — what gives first?</div>
-          <p class="a">In this order: <strong>Monday's limit attempts first</strong> — switch to "Strength only" for the day (same Tindeq check, pull-ups, and core, just no climbing). It's the most dispensable single item in the week: below 7a, Hörst's own book ranks technique and mileage above raw power as the limiting factor, and Monday is already 5 of 6 items non-climbing gym work anyway. <strong>Saturday second</strong> — its "sustain hard moves under fatigue" stimulus overlaps with Wednesday's 4×4 (same quality, different discipline), and it's also your highest-skin-cost day (most total holds touched), so it's the one to drop outright in a lean week rather than substitute. <strong>Wednesday and Friday don't get cut</strong> — Wednesday trains the weakness you named as your #1 problem, and Friday is the most direct rehearsal of getting back to 7a. If you're only good for 3 days some week, those two are the two to protect.</p>
+          <p class="a"><strong>Monday and Wednesday are fixed</strong> — Wednesday's 4×4 trains the weakness you named as your #1 problem, and Monday is your power/limit day plus the only Tindeq check of the week; neither gets cut. <strong>Friday and Saturday are the flexible pair</strong> — you'll always get one lead session in, but which one happens is your call that week. Use the "Skipped" option on whichever of the two you're not doing (Friday's chooser or Saturday's) so it's logged as an intentional choice rather than a broken plan, and your streak won't ding you for it. Monday also has a Climbing-gym / Strength-only toggle for the rarer case where skin or an injury flare rules out the wall entirely that day — same Tindeq check, pull-ups, and core, just no climbing — but that's a fallback, not the first thing to cut.</p>
         </div>
       </div>
 
@@ -359,8 +373,8 @@
               <tr><td>Tue</td><td>General conditioning (no climbing)</td><td>Push, legs, antagonist, dips — nothing sport-specific</td></tr>
               <tr><td>Wed</td><td>Boulder — power-endurance (4×4)</td><td>Your #1 lever</td></tr>
               <tr><td>Thu</td><td>Flexible</td><td>Rest, legs, or swim</td></tr>
-              <tr><td>Fri</td><td>Lead — technique + redpoint</td><td>Fresh project attempts</td></tr>
-              <tr><td>Sat</td><td>Lead — endurance / mileage</td><td>Fighting the pump</td></tr>
+              <tr><td>Fri</td><td>Lead — technique + redpoint (or skipped, see below)</td><td>Fresh project attempts</td></tr>
+              <tr><td>Sat</td><td>Lead — endurance / mileage (or skipped, see below)</td><td>Fighting the pump</td></tr>
               <tr><td>Sun</td><td>Rest</td><td>Full rest</td></tr>
             </tbody>
           </table>
@@ -472,26 +486,8 @@
         {id:"core", text:"Core — bicycle crunch ×20 → hollow body hold 20–30s → side plank 25s/side → hanging knee raise ×10", meta:"3 rounds · 60s between", type:"check"},
         {id:"cooldown", text:"Cooldown stretch", meta:"5 min", type:"check"}
       ]},
-    fri: { label: "Lead — Technique + Redpoint", sub: "Freshest lead day — spend it on the project.",
-      items: [
-        {id:"warmup", text:"Warm-up", meta:"15–17 min", type:"check"},
-        {id:"drill", text:"Technique drill — silent feet / downclimb every route / “First Touch”", meta:"2–3 easy routes", why:"Hörst's own line is \"5.12 and above\" (≈7a) is where strength starts to matter as much as technique — that's roughly your target grade, not two grades above it, so this still earns its slot but isn't the whole story anymore.", type:"check"},
-        {id:"project", text:"Project route + grade", meta:"2–3 attempts · rest 5–8m", why:"Logging the actual grade is what makes the week-3 progression rule (\"bump the grade\") mean anything.", type:"grade", placeholder:"e.g. 6c+"},
-        {id:"crux", text:"Crux rehearsal (if you fell)", meta:"2–3 reps · rest 1m", type:"check"},
-        {id:"volume", text:"Volume climbing grade", meta:"3–4 routes · rest 1–2m", type:"grade", placeholder:"e.g. 6a"},
-        {id:"antagwrist", text:"Reverse wrist curl (lowest priority — skip first if short on time)", meta:"2×15/arm", why:"Second and last extensor slot of the week — same elbow-health reasoning as Tuesday's, not a grip-strength or grade lever.", type:"check"},
-        {id:"antagshoulder", text:"Shoulder external rotation", meta:"2×12/arm", type:"check"},
-        {id:"cooldown", text:"Cooldown stretch", meta:"5 min", type:"check"}
-      ]},
-    sat: { label: "Lead — Endurance / Mileage", sub: "Some residual fatigue from Friday is fine here — that's the point.",
-      items: [
-        {id:"warmup", text:"Warm-up", meta:"15–17 min", type:"check"},
-        {id:"rounds", text:"Endurance rounds completed — 3 easy routes back-to-back = 1 round", meta:"target: 3–4 rounds · minimal rest between routes within a round · rest 3–5m between rounds", why:"Same logic as Wednesday's 4×4, applied to lead — sustained output under incomplete rest, not one-off attempts with full recovery.", type:"count", unit:"rounds"},
-        {id:"gradeused", text:"Grade of the 3 routes used", meta:"", type:"grade", placeholder:"e.g. 6a"},
-        {id:"tabata", text:"Forearm finisher — Tabata on a jug", meta:"20s hang / 10s rest ×8 (4 min)", type:"check"},
-        {id:"core", text:"Core — bicycle crunch ×20 → hollow body hold 20–30s → side plank 25s/side → hanging knee raise ×10", meta:"2 rounds · 60s between", type:"check"},
-        {id:"cooldown", text:"Cooldown stretch", meta:"5–10 min", type:"check"}
-      ]},
+    fri: { label: "Lead Day A", sub: "Full session, or mark skipped if you're doing your one lead day on Saturday instead." },
+    sat: { label: "Lead Day B", sub: "Full session, or mark skipped if you already got your lead day in on Friday." },
     sun: { label: "Rest", sub: "Full rest — nothing prescribed.", items: [] },
     thu: { label: "Flexible", sub: "Rest, legs, or swim — pick below." } // items come from THU_SUB, not from here
   };
@@ -511,6 +507,36 @@
       {id:"pullups", text:"Pull-ups — same reps as last week, add a little weight", meta:"4 sets · rest 3m · start unweighted", why:"Same as the climbing version — this and the Tindeq check are what actually needed a bar/edge, not a climbing wall.", type:"pullreps"},
       {id:"core", text:"Core finisher — bicycle crunch ×20 → hollow body hold 20–30s → side plank 25s/side → hanging knee raise ×10", meta:"2 rounds · 60s between", type:"check"},
       {id:"cooldown", text:"Cooldown stretch", meta:"5 min", type:"check"}
+    ]}
+  };
+
+  var FRI_SUB = {
+    full: { label: "Lead — Technique + Redpoint", items: [
+      {id:"warmup", text:"Warm-up", meta:"15–17 min", type:"check"},
+      {id:"drill", text:"Technique drill — silent feet / downclimb every route / “First Touch”", meta:"2–3 easy routes", why:"Hörst's own line is \"5.12 and above\" (≈7a) is where strength starts to matter as much as technique — that's roughly your target grade, not two grades above it, so this still earns its slot but isn't the whole story anymore.", type:"check"},
+      {id:"project", text:"Project route + grade", meta:"2–3 attempts · rest 5–8m", why:"Logging the actual grade is what makes the week-3 progression rule (\"bump the grade\") mean anything.", type:"grade", placeholder:"e.g. 6c+"},
+      {id:"crux", text:"Crux rehearsal (if you fell)", meta:"2–3 reps · rest 1m", type:"check"},
+      {id:"volume", text:"Volume climbing grade", meta:"3–4 routes · rest 1–2m", type:"grade", placeholder:"e.g. 6a"},
+      {id:"antagwrist", text:"Reverse wrist curl (lowest priority — skip first if short on time)", meta:"2×15/arm", why:"Second and last extensor slot of the week — same elbow-health reasoning as Tuesday's, not a grip-strength or grade lever.", type:"check"},
+      {id:"antagshoulder", text:"Shoulder external rotation", meta:"2×12/arm", type:"check"},
+      {id:"cooldown", text:"Cooldown stretch", meta:"5 min", type:"check"}
+    ]},
+    skipped: { label: "Skipped — lead day moved to Saturday", items: [
+      {id:"skipped", text:"Skipped Friday's session — doing the one lead day this week on Saturday instead", meta:"", why:"Counts as a real choice, not a broken plan — you decided this, it didn't just not happen.", type:"check"}
+    ]}
+  };
+
+  var SAT_SUB = {
+    full: { label: "Lead — Endurance / Mileage", items: [
+      {id:"warmup", text:"Warm-up", meta:"15–17 min", type:"check"},
+      {id:"rounds", text:"Endurance rounds completed — 3 easy routes back-to-back = 1 round", meta:"target: 3–4 rounds · minimal rest between routes within a round · rest 3–5m between rounds", why:"Same logic as Wednesday's 4×4, applied to lead — sustained output under incomplete rest, not one-off attempts with full recovery.", type:"count", unit:"rounds"},
+      {id:"gradeused", text:"Grade of the 3 routes used", meta:"", type:"grade", placeholder:"e.g. 6a"},
+      {id:"tabata", text:"Forearm finisher — Tabata on a jug", meta:"20s hang / 10s rest ×8 (4 min)", type:"check"},
+      {id:"core", text:"Core — bicycle crunch ×20 → hollow body hold 20–30s → side plank 25s/side → hanging knee raise ×10", meta:"2 rounds · 60s between", type:"check"},
+      {id:"cooldown", text:"Cooldown stretch", meta:"5–10 min", type:"check"}
+    ]},
+    skipped: { label: "Skipped — lead day already done Friday", items: [
+      {id:"skipped", text:"Skipped Saturday's session — already got the one lead day in on Friday", meta:"", why:"Counts as a real choice, not a broken plan — you decided this, it didn't just not happen.", type:"check"}
     ]}
   };
 
@@ -566,6 +592,8 @@
     var e = { date: iso, dayKey: key, checks: {}, numbers: {}, notes: "" };
     if(key === "thu") e.thuChoice = "rest";
     if(key === "mon") e.monChoice = "climb";
+    if(key === "fri") e.friChoice = "full";
+    if(key === "sat") e.satChoice = "full";
     return e;
   }
   function persist(entry){
@@ -699,6 +727,8 @@
   function itemsForDay(entry){
     if(entry.dayKey === "thu") return THU_SUB[entry.thuChoice || "rest"].items;
     if(entry.dayKey === "mon") return MON_SUB[entry.monChoice || "climb"].items;
+    if(entry.dayKey === "fri") return FRI_SUB[entry.friChoice || "full"].items;
+    if(entry.dayKey === "sat") return SAT_SUB[entry.satChoice || "full"].items;
     return TEMPLATES[entry.dayKey].items;
   }
   function isItemDone(entry, item){
@@ -876,6 +906,26 @@
       monChooser.style.display = "none";
     }
 
+    var friChooser = document.getElementById("friChooser");
+    if(key === "fri"){
+      friChooser.style.display = "block";
+      document.querySelectorAll("#friSeg button").forEach(function(b){
+        b.classList.toggle("active", b.getAttribute("data-fri") === (current.friChoice || "full"));
+      });
+    } else {
+      friChooser.style.display = "none";
+    }
+
+    var satChooser = document.getElementById("satChooser");
+    if(key === "sat"){
+      satChooser.style.display = "block";
+      document.querySelectorAll("#satSeg button").forEach(function(b){
+        b.classList.toggle("active", b.getAttribute("data-sat") === (current.satChoice || "full"));
+      });
+    } else {
+      satChooser.style.display = "none";
+    }
+
     var items = itemsForDay(current), html = "";
     for(var j=0;j<items.length;j++){ html += itemRowHtml(current, items[j]); }
     document.getElementById("dayItems").innerHTML = html || '<div class="empty">Nothing scheduled — enjoy the rest.</div>';
@@ -964,6 +1014,22 @@
     render(current.date);
   });
 
+  document.getElementById("friSeg").addEventListener("click", function(e){
+    var btn = e.target.closest("button[data-fri]");
+    if(!btn) return;
+    current.friChoice = btn.getAttribute("data-fri");
+    persist(current);
+    render(current.date);
+  });
+
+  document.getElementById("satSeg").addEventListener("click", function(e){
+    var btn = e.target.closest("button[data-sat]");
+    if(!btn) return;
+    current.satChoice = btn.getAttribute("data-sat");
+    persist(current);
+    render(current.date);
+  });
+
   document.getElementById("prevWeek").addEventListener("click", function(){ render(shiftISO(current.date, -7)); });
   document.getElementById("nextWeek").addEventListener("click", function(){ render(shiftISO(current.date, 7)); });
   document.getElementById("jumpToday").addEventListener("click", function(){ render(todayISO()); });
@@ -985,6 +1051,8 @@
       var e = all[i];
       var meta = e.dayKey === "thu" ? { label: THU_SUB[e.thuChoice||"rest"].label }
         : e.dayKey === "mon" ? { label: MON_SUB[e.monChoice||"climb"].label }
+        : e.dayKey === "fri" ? { label: FRI_SUB[e.friChoice||"full"].label }
+        : e.dayKey === "sat" ? { label: SAT_SUB[e.satChoice||"full"].label }
         : TEMPLATES[e.dayKey];
       var prog = progressFor(e);
       var noteSnippet = e.notes ? escapeHtml(e.notes.slice(0,70)) : "";
