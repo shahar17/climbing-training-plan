@@ -339,11 +339,11 @@
         <h2>About the day layout</h2>
         <div class="qa">
           <div class="q">Is Mon/Wed boulder, Fri/Sat lead a problem?</div>
-          <p class="a">Not the shape of it — 2 boulder + 2 lead either way. Tuesday stays at the boulder gym but is a no-climbing day, so fingers get a break between Monday's limit day and Wednesday's 4×4 — three straight days of hard finger loading was the one thing worth avoiding, especially with your history.</p>
+          <p class="a">Not the shape of it — 2 boulder + 2 lead either way. Tuesday is full rest, so fingers get a real break between Monday's limit day and Wednesday's 4×4 — three straight days of hard finger loading was the one thing worth avoiding, especially with your history.</p>
         </div>
         <div class="qa">
           <div class="q">Isn't that 5+ training days? Hörst says cap it at 4.</div>
-          <p class="a">It's 4 climbing days (Mon/Wed/Fri/Sat) plus Tuesday — but Tuesday only carries general conditioning (push-ups, dips, antagonist, legs, core), which Hörst's own book treats as fine on any day, including "twice per week" antagonist work regardless of climbing schedule. The two things that actually count as sport-specific training — weighted pull-ups and the Tindeq finger check — live on Monday now, inside one of your 4 climbing days, specifically so they don't add a 5th sport-specific day. Thursday's legs/swim option is the same story: general conditioning, not sport-specific, so it doesn't count against the cap either.</p>
+          <p class="a">It's exactly 4 (Mon/Wed/Fri/Sat) — there's no separate day for general conditioning anymore. Push-ups, dips, antagonist work, and legs used to live on their own Tuesday, but Hörst is explicit that "during a particular workout, always perform actual climbing before engaging in strength-training exercises" — so that work now sits at the *end* of Wednesday's session, after the 4×4, instead of on a standalone day. Tuesday is full rest. Thursday's legs/swim option is general conditioning too, not sport-specific, so it doesn't count against the cap either if you use it.</p>
         </div>
         <div class="qa">
           <div class="q">Do bouldering, the 4×4, and the hangboard each get their own "recovery budget"?</div>
@@ -355,7 +355,7 @@
         </div>
         <div class="qa">
           <div class="q">Can I occasionally swap Wednesday's boulder with Saturday's lead?</div>
-          <p class="a">Yes, no rebuild needed — it only touches the two endurance slots, not the quality days. Just know the more explosive session (4×4) is normally buffered by Tuesday's rest; swapped onto Saturday it lands straight after a climbing day, so dial it back that week (3 rounds, easier problems) rather than pushing full intensity.</p>
+          <p class="a">Yes, no rebuild needed — it only touches the two endurance slots, not the quality days. Just know the more explosive session (4×4 plus the conditioning tacked onto it) is normally buffered by Tuesday's rest beforehand; swapped onto Saturday it lands straight after a climbing day, so dial it back that week (3 rounds, easier problems, and consider skipping the conditioning tail that day) rather than pushing full intensity.</p>
         </div>
         <div class="qa">
           <div class="q">Some weeks skin or fatigue means I can't do all 4 climbing days — what gives first?</div>
@@ -370,8 +370,8 @@
             <thead><tr><th>Day</th><th>Session</th><th>Focus</th></tr></thead>
             <tbody>
               <tr><td>Mon</td><td>Boulder — limit / power (or strength-only, see below)</td><td>V4–V6, fully rested · Tindeq + pull-ups live here too</td></tr>
-              <tr><td>Tue</td><td>General conditioning (no climbing)</td><td>Push, legs, antagonist, dips — nothing sport-specific</td></tr>
-              <tr><td>Wed</td><td>Boulder — power-endurance (4×4)</td><td>Your #1 lever</td></tr>
+              <tr><td>Tue</td><td>Full rest</td><td>Buffer before Wednesday's longer combined session</td></tr>
+              <tr><td>Wed</td><td>Boulder — power-endurance (4×4), then push/legs/antagonist after</td><td>Your #1 lever, climbing always before strength work</td></tr>
               <tr><td>Thu</td><td>Flexible</td><td>Rest, legs, or swim</td></tr>
               <tr><td>Fri</td><td>Lead — technique + redpoint (or skipped, see below)</td><td>Fresh project attempts</td></tr>
               <tr><td>Sat</td><td>Lead — endurance / mileage (or skipped, see below)</td><td>Fighting the pump</td></tr>
@@ -465,18 +465,8 @@
 
   var TEMPLATES = {
     mon: { label: "Power Day", sub: "Climbing gym or strength-only — pick below based on skin/fatigue." },
-    tue: { label: "General Conditioning (not sport-specific)", sub: "No climbing today, and nothing pull/finger-specific either — that stayed on Monday on purpose.",
-      items: [
-        {id:"warmup", text:"Warm-up — joint mobility, then a few easy ramp-up reps of push-ups", meta:"8–10 min", why:"Ramping into the actual movement beats generic cardio for the same reason it does on climbing days — it's specific to what you're about to load.", type:"check"},
-        {id:"pushups", text:"Push-ups — max reps each set", meta:"4 sets · rest 90s", why:"Closes your pull:push gap. Hörst categorizes push/antagonist work as general conditioning, not sport-specific — that's why it can live here without counting against your 4-day cap.", type:"reps"},
-        {id:"dips", text:"Dips — band-assisted, max reps each set", meta:"3 sets · rest 2m · use enough band that you can move well, not just survive", why:"3 unassisted was never a real training set — same fix as push-ups: track max reps at whatever assistance you need, and reduce the band as reps climb, instead of grinding a fixed 6–8 you can't hit yet.", type:"reps"},
-        {id:"antagwrist", text:"Reverse wrist curl (lowest priority — skip first if short on time)", meta:"2×15/arm", why:"Nothing to do with grip performance on any specific hold type (crimp, sloper, pinch) — it's about the wrist EXTENSORS, which climbing barely uses at all, versus the flexors, which get hit on all 4 climbing days plus pull-ups. That imbalance is the standard mechanism behind climber's elbow (epicondylitis), so this is pure preventive insurance, not something that shows up as better sloper or crimp strength. If you're not having any elbow symptoms, it's the single most skippable item in the whole plan — nothing else here is filler in the same way.", type:"check"},
-        {id:"antagshoulder", text:"Shoulder external rotation", meta:"2×12/arm", type:"check"},
-        {id:"singleleg", text:"Single-leg squat progression", meta:"3×5–6/leg · rest 90s", type:"check"},
-        {id:"cossack", text:"Cossack squats", meta:"2×8/side · rest 60s", why:"Stationary — no walking lane needed at a boulder gym — and trains the lateral plane pistols don't.", type:"check"},
-        {id:"cooldown", text:"Cooldown — full-body stretch", meta:"10 min", type:"check"}
-      ]},
-    wed: { label: "Boulder — Power-Endurance (4×4)", sub: "Your #1 lever — trains “hard moves for longer.”",
+    tue: { label: "Rest", sub: "Full rest — the conditioning work that used to live here moved to the end of Wednesday.", items: [] },
+    wed: { label: "Boulder — Power-Endurance (4×4) + Conditioning", sub: "Your #1 lever, then the week's push/leg/antagonist work tacked on after — climbing always comes before strength work in the same session.",
       items: [
         {id:"warmup", text:"Warm-up, ramping through V0–V2", meta:"15–17 min", type:"check"},
         {id:"densityhang", text:"Density hangs — two-arm, Tindeq attached, edge sized to fail in the window", meta:"2 sets · rest 2m · aim for the lower end, ~55–70% effort, 20–40s to failure · log hold time and the force Tindeq shows", why:"Done here, right after warm-up and before any climbing, because a fatigued hand grips worse — often collapsing toward full crimp or slipping — and that's the real mechanism behind re-straining a healed pulley, not just total load. Keeping it sub-maximal and pre-climbing protects grip control for this set and leaves the 4×4 below essentially unaffected. Logged on the Tindeq like Monday's test so it's a real number, not a guessed edge size. Skip a set or size up the edge if Monday was unusually hard on your fingers — same recovery budget, see Plan tab.", type:"hangtest"},
@@ -484,7 +474,13 @@
         {id:"gradeused", text:"Grade of the 4 problems used", meta:"≈2–3 grades below limit — this is what week 2/3's progression rule reads from", type:"grade", placeholder:"e.g. V2"},
         {id:"pumpround", text:"Pumped by round #", meta:"if not round 3 or earlier, size up next time", type:"count", unit:"round #"},
         {id:"core", text:"Core — bicycle crunch ×20 → hollow body hold 20–30s → side plank 25s/side → hanging knee raise ×10", meta:"3 rounds · 60s between", type:"check"},
-        {id:"cooldown", text:"Cooldown stretch", meta:"5 min", type:"check"}
+        {id:"pushups", text:"Push-ups — max reps each set", meta:"4 sets · rest 90s", why:"Closes your pull:push gap. Placed after all the climbing on purpose — Hörst's own rule is to always perform actual climbing before strength-training exercises within a workout. General conditioning, not sport-specific, so it doesn't count against your 4-day cap.", type:"reps"},
+        {id:"dips", text:"Dips — band-assisted, max reps each set", meta:"3 sets · rest 2m · use enough band that you can move well, not just survive", why:"3 unassisted was never a real training set — track max reps at whatever assistance you need, and reduce the band as reps climb.", type:"reps"},
+        {id:"antagwrist", text:"Reverse wrist curl (lowest priority — skip first if short on time)", meta:"2×15/arm", why:"Nothing to do with grip performance on any specific hold type (crimp, sloper, pinch) — it's about the wrist EXTENSORS, which climbing barely uses at all, versus the flexors, which get hit on all 4 climbing days plus pull-ups. That imbalance is the standard mechanism behind climber's elbow (epicondylitis), so this is pure preventive insurance. Twice a week (here + Friday). If you're not having any elbow symptoms, it's the single most skippable item in the whole plan.", type:"check"},
+        {id:"antagshoulder", text:"Shoulder external rotation", meta:"2×12/arm", type:"check"},
+        {id:"singleleg", text:"Single-leg squat progression", meta:"3×5–6/leg · rest 90s", type:"check"},
+        {id:"cossack", text:"Cossack squats", meta:"2×8/side · rest 60s", why:"Stationary — no walking lane needed at a boulder gym — and trains the lateral plane pistols don't.", type:"check"},
+        {id:"cooldown", text:"Cooldown — full-body stretch", meta:"8–10 min", type:"check"}
       ]},
     fri: { label: "Lead Day A", sub: "Full session, or mark skipped if you're doing your one lead day on Saturday instead." },
     sat: { label: "Lead Day B", sub: "Full session, or mark skipped if you already got your lead day in on Friday." },
@@ -517,7 +513,7 @@
       {id:"project", text:"Project route + grade", meta:"2–3 attempts · rest 5–8m", why:"Logging the actual grade is what makes the week-3 progression rule (\"bump the grade\") mean anything.", type:"grade", placeholder:"e.g. 6c+"},
       {id:"crux", text:"Crux rehearsal (if you fell)", meta:"2–3 reps · rest 1m", type:"check"},
       {id:"volume", text:"Volume climbing grade", meta:"3–4 routes · rest 1–2m", type:"grade", placeholder:"e.g. 6a"},
-      {id:"antagwrist", text:"Reverse wrist curl (lowest priority — skip first if short on time)", meta:"2×15/arm", why:"Second and last extensor slot of the week — same elbow-health reasoning as Tuesday's, not a grip-strength or grade lever.", type:"check"},
+      {id:"antagwrist", text:"Reverse wrist curl (lowest priority — skip first if short on time)", meta:"2×15/arm", why:"Second and last extensor slot of the week — same elbow-health reasoning as Wednesday's, not a grip-strength or grade lever.", type:"check"},
       {id:"antagshoulder", text:"Shoulder external rotation", meta:"2×12/arm", type:"check"},
       {id:"cooldown", text:"Cooldown stretch", meta:"5 min", type:"check"}
     ]},
