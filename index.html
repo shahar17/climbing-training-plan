@@ -308,7 +308,7 @@
 
         <div class="notewrap">
           <label for="dayNotes">Notes — anything worth remembering, or why something got skipped</label>
-          <textarea id="dayNotes" placeholder="e.g. skipped dips, shoulder felt tight. Felt strong on the 4×4, size up next week."></textarea>
+          <textarea id="dayNotes" placeholder="e.g. skipped bench, shoulder felt tight. Felt strong on the 4×4, size up next week."></textarea>
         </div>
         <span class="savestatus" id="saveStatus">Not saved yet</span>
       </div>
@@ -343,7 +343,7 @@
         </div>
         <div class="qa">
           <div class="q">Isn't that 5+ training days? Hörst says cap it at 4.</div>
-          <p class="a">It's exactly 4 (Mon/Wed/Fri/Sat) — there's no separate day for general conditioning anymore. Push-ups, dips, antagonist work, and legs used to live on their own Tuesday, but Hörst is explicit that "during a particular workout, always perform actual climbing before engaging in strength-training exercises" — so that work now sits at the *end* of Wednesday's session, after the 4×4, instead of on a standalone day. Tuesday is full rest. Thursday's legs/swim option is general conditioning too, not sport-specific, so it doesn't count against the cap either if you use it.</p>
+          <p class="a">It's exactly 4 (Mon/Wed/Fri/Sat) — there's no separate day for general conditioning anymore. Push, bench, legs, and antagonist work used to live on their own Tuesday, but Hörst is explicit that "during a particular workout, always perform actual climbing before engaging in strength-training exercises" — so that work now sits at the *end* of Wednesday's session, after the 4×4, instead of on a standalone day. Tuesday is full rest. Thursday's legs/swim option is general conditioning too, not sport-specific, so it doesn't count against the cap either if you use it.</p>
         </div>
         <div class="qa">
           <div class="q">Do bouldering, the 4×4, and the hangboard each get their own "recovery budget"?</div>
@@ -475,11 +475,11 @@
         {id:"pumpround", text:"Pumped by round #", meta:"if not round 3 or earlier, size up next time", type:"count", unit:"round #"},
         {id:"core", text:"Core — bicycle crunch ×20 → hollow body hold 20–30s → side plank 25s/side → hanging knee raise ×10", meta:"3 rounds · 60s between", type:"check"},
         {id:"pushups", text:"Push-ups — max reps each set", meta:"4 sets · rest 90s", why:"Closes your pull:push gap. Placed after all the climbing on purpose — Hörst's own rule is to always perform actual climbing before strength-training exercises within a workout. General conditioning, not sport-specific, so it doesn't count against your 4-day cap.", type:"reps"},
-        {id:"dips", text:"Dips — band-assisted, max reps each set", meta:"3 sets · rest 2m · use enough band that you can move well, not just survive", why:"3 unassisted was never a real training set — track max reps at whatever assistance you need, and reduce the band as reps climb.", type:"reps"},
+        {id:"bench", text:"Bench press", meta:"3–4 sets × 6–10 reps · rest 2–3m · a weight that's genuinely hard by rep 6-10", why:"General conditioning, not a climbing-specific lever — the push motion and force vector don't transfer to climbing (Beardsley's specificity argument), so which rep range you use here is a personal-goal choice, not a program-correctness one. 6-10 reps is the middle ground: real strength and size stimulus without needing 1RM-level loads. If you specifically want the bench number itself to go up, some sets at 4-6 reps heavier is what that actually needs — 15-20 reps like your last session trains muscular endurance, not maximum strength, per Beardsley's own chapter on this and current meta-analyses (Schoenfeld et al.).", type:"pullreps"},
         {id:"antagwrist", text:"Reverse wrist curl (lowest priority — skip first if short on time)", meta:"2×15/arm", why:"Nothing to do with grip performance on any specific hold type (crimp, sloper, pinch) — it's about the wrist EXTENSORS, which climbing barely uses at all, versus the flexors, which get hit on all 4 climbing days plus pull-ups. That imbalance is the standard mechanism behind climber's elbow (epicondylitis), so this is pure preventive insurance. Twice a week (here + Friday). If you're not having any elbow symptoms, it's the single most skippable item in the whole plan.", type:"check"},
         {id:"antagshoulder", text:"Shoulder external rotation", meta:"2×12/arm", type:"check"},
         {id:"singleleg", text:"Single-leg squat progression", meta:"3×5–6/leg · rest 90s", type:"check"},
-        {id:"cossack", text:"Cossack squats", meta:"2×8/side · rest 60s", why:"Stationary — no walking lane needed at a boulder gym — and trains the lateral plane pistols don't.", type:"check"},
+        {id:"bulgarian", text:"Bulgarian split squats — per leg", meta:"3 sets × 8–10/leg · rest 90s · load = total weight held (dumbbells/plates), not per side", why:"Stationary — no walking lane needed at a boulder gym — single-leg loading closer to a high-step or rock-over than a bilateral squat. Same rep-range logic as bench: 8-10 is the general-conditioning middle ground, drop to 5-6/leg heavier if you want the strength number itself to move.", type:"pullreps"},
         {id:"cooldown", text:"Cooldown — full-body stretch", meta:"8–10 min", type:"check"}
       ]},
     fri: { label: "Lead Day A", sub: "Full session, or mark skipped if you're doing your one lead day on Saturday instead." },
@@ -543,7 +543,7 @@
     legs: { label: "Legs & mobility", items: [
       {id:"squat", text:"Bodyweight squats", meta:"3×15", type:"check"},
       {id:"singleleg", text:"Single-leg squat progression", meta:"3×6/leg", type:"check"},
-      {id:"cossack", text:"Cossack squats", meta:"2×8/side", type:"check"},
+      {id:"bulgarian", text:"Bulgarian split squats", meta:"2×8/leg", type:"check"},
       {id:"stretch", text:"Hip flexor / hamstring / adductor stretch", meta:"2×20s each", type:"check"}
     ]},
     swim: { label: "Swim", items: [
